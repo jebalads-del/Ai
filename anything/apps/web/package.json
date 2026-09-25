@@ -6,7 +6,6 @@
 		"dev": "next dev",
 		"build": "next build",
     "start": "next start",
-    "lint": "next lint"
 		"dev": "react-router dev",
 		"typecheck": "react-router typegen && tsc --noEmit"
 	},

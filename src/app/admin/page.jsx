@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import useUser from "@/utils/useUser";
 import { useAdminUsers } from "@/hooks/useAdminUsers";

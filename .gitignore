@@ -1,13 +1,10 @@
-node_modules/
-.next/
-out/
-build/
-dist/
-.env
-.env*.local
-*.log
 .DS_Store
-.vercel
-*.tsbuildinfo
-next-env.d.ts
-tsconfig.json.bak
+/node_modules/
+
+# React Router
+/.react-router/
+/build/
+anything/
+.env.backup-anything
+*.backup-*
+.env

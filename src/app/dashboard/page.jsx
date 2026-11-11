@@ -23,6 +23,21 @@ import {
   Menu,
 } from "lucide-react";
 
+async function saveGeneratedMedia(url) {
+  const mediaResponse = await fetch(url);
+  if (!mediaResponse.ok) throw new Error("فشل تحميل الملف الناتج");
+
+  const formData = new FormData();
+  formData.append("file", await mediaResponse.blob());
+  const response = await fetch("/api/storage/generated", {
+    method: "POST",
+    body: formData,
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || "فشل حفظ الملف");
+  return data.url;
+}
+
 export default function UserDashboard() {
   const { data: user, loading: userLoading } = useUser();
   const { signOut } = useAuth();
@@ -170,6 +185,8 @@ export default function UserDashboard() {
         if (!url) throw new Error("لم تُنشأ الصورة، حاول مرة أخرى");
       }
 
+      setGenStatus("💾 جاري حفظ الصورة...");
+      url = await saveGeneratedMedia(url);
       setResult(url);
       setGenStatus("");
 
@@ -269,7 +286,9 @@ export default function UserDashboard() {
             ? statusData.url[0]
             : statusData.url;
           if (!url) throw new Error("لم يُعاد رابط الفيديو");
-          setVideoResult(url);
+          setVideoStatus("💾 جاري حفظ الفيديو...");
+          const savedUrl = await saveGeneratedMedia(url);
+          setVideoResult(savedUrl);
           setVideoStatus("");
           // ✅ نسجل الاستخدام فقط بعد نجاح الفيديو فعلاً
           await fetch("/api/log-usage", {

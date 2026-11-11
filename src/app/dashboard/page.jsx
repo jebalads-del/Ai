@@ -376,11 +376,11 @@ export default function UserDashboard() {
 
   return (
     <div
-      className="min-h-screen bg-[#F0F2FF] font-tajawal text-right"
+      className="min-h-screen bg-[#F5F4FB] font-tajawal text-right text-slate-800"
       dir="rtl"
     >
       {/* Sidebar Desktop */}
-      <div className="hidden md:flex flex-col w-64 bg-white border-l border-gray-100 fixed h-full shadow-sm">
+      <div className="hidden md:flex flex-col w-64 bg-white/95 border-l border-violet-100 fixed h-full shadow-[0_12px_40px_rgba(49,46,129,0.06)] backdrop-blur">
         <div className="flex items-center gap-3 px-6 py-6 border-b border-gray-50">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white text-lg">
             ✨
@@ -410,7 +410,7 @@ export default function UserDashboard() {
             <button
               key={key}
               onClick={() => setActiveTab(key)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold transition-all ${activeTab === key ? "bg-indigo-600 text-white shadow-md" : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"}`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold transition-all ${activeTab === key ? "bg-gradient-to-l from-[#312E81] to-indigo-600 text-white shadow-lg shadow-indigo-200/70" : "text-slate-500 hover:bg-violet-50 hover:text-indigo-800"}`}
             >
               <Icon size={18} />
               {label}
@@ -440,11 +440,11 @@ export default function UserDashboard() {
       </div>
 
       {/* Mobile Header */}
-      <div className="md:hidden sticky top-0 z-40 bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between shadow-sm">
-        <button onClick={() => setSidebarOpen(!sidebarOpen)}>
-          <Menu size={22} className="text-gray-600" />
+      <div className="md:hidden sticky top-0 z-40 bg-gradient-to-l from-[#312E81] to-indigo-700 text-white px-4 py-3.5 flex items-center justify-between shadow-lg shadow-indigo-950/10">
+        <button onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="فتح القائمة">
+          <Menu size={22} className="text-white" />
         </button>
-        <span className="font-bold text-gray-900">كرياتيف AI</span>
+        <span className="font-bold tracking-wide text-white">كرياتيف AI</span>
         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-violet-500 flex items-center justify-center text-white font-bold text-xs">
           {user.name
             ? user.name.charAt(0)
@@ -485,7 +485,7 @@ export default function UserDashboard() {
                     setActiveTab(key);
                     setSidebarOpen(false);
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold transition-all ${activeTab === key ? "bg-indigo-600 text-white" : "text-gray-500 hover:bg-gray-50"}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold transition-all ${activeTab === key ? "bg-gradient-to-l from-[#312E81] to-indigo-600 text-white shadow-md shadow-indigo-200" : "text-slate-500 hover:bg-violet-50 hover:text-indigo-800"}`}
                 >
                   <Icon size={18} />
                   {label}
@@ -520,7 +520,7 @@ export default function UserDashboard() {
       )}
 
       {/* Main */}
-      <div className="md:mr-64 p-4 md:p-8 pb-24 md:pb-8">
+      <div className="md:mr-64 p-4 sm:p-6 md:p-9 pb-28 md:pb-9 max-w-[1800px]">
         {/* ─── TAB: إنشاء ─── */}
         {activeTab === "generate" && (
           <div className="max-w-2xl mx-auto space-y-6">
@@ -533,17 +533,17 @@ export default function UserDashboard() {
               </p>
             </div>
 
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 space-y-4">
+            <div className="bg-white rounded-3xl border border-violet-100/80 shadow-[0_12px_36px_rgba(49,46,129,0.06)] p-6 space-y-4">
               {/* Mode toggle */}
               <div className="flex gap-2">
                 <button
                   onClick={() => setUploadedImage(null)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${!uploadedImage ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-500"}`}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${!uploadedImage ? "bg-gradient-to-l from-[#312E81] to-indigo-600 text-white shadow-md shadow-indigo-200" : "bg-violet-50 text-slate-600 hover:bg-violet-100"}`}
                 >
                   <ImageIcon size={14} /> نص إلى صورة
                 </button>
                 <label
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition-all ${uploadedImage ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-500"}`}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold cursor-pointer transition-all ${uploadedImage ? "bg-gradient-to-l from-[#312E81] to-indigo-600 text-white shadow-md shadow-indigo-200" : "bg-violet-50 text-slate-600 hover:bg-violet-100"}`}
                 >
                   <Video size={14} /> تعديل صورة
                   <input
@@ -586,7 +586,7 @@ export default function UserDashboard() {
                     : "مثال: قطة تجلس على مكتب خشبي في غرفة مضاءة بنور ذهبي..."
                 }
                 rows={4}
-                className="w-full bg-[#F8F9FF] border border-gray-200 rounded-2xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none placeholder:text-gray-300"
+                className="w-full bg-[#F8F8FC] border border-violet-100 rounded-2xl p-4 text-sm leading-7 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 resize-none placeholder:text-slate-400 transition-shadow"
               />
 
               {genError && (
@@ -608,7 +608,7 @@ export default function UserDashboard() {
               <button
                 onClick={handleGenerate}
                 disabled={genLoading || !prompt.trim()}
-                className="w-full py-4 rounded-2xl font-bold text-white text-sm bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all shadow-lg disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full py-4 rounded-2xl font-bold text-white text-sm bg-gradient-to-l from-[#312E81] via-indigo-700 to-indigo-500 hover:from-[#27236e] hover:to-indigo-600 transition-all shadow-lg shadow-indigo-200/70 disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {genLoading ? (
                   <>
@@ -636,7 +636,7 @@ export default function UserDashboard() {
             </div>
 
             {result && (
-              <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-5">
+              <div className="bg-white rounded-3xl border border-violet-100/80 shadow-[0_12px_36px_rgba(49,46,129,0.06)] p-5">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-bold text-gray-900">النتيجة ✓</h3>
                   <a
@@ -668,17 +668,17 @@ export default function UserDashboard() {
               </p>
             </div>
 
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 space-y-4">
+            <div className="bg-white rounded-3xl border border-violet-100/80 shadow-[0_12px_36px_rgba(49,46,129,0.06)] p-6 space-y-4">
               {/* Mode toggle */}
               <div className="flex gap-2">
                 <button
                   onClick={() => setVideoImage(null)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${!videoImage ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-500"}`}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${!videoImage ? "bg-gradient-to-l from-[#312E81] to-indigo-600 text-white shadow-md shadow-indigo-200" : "bg-violet-50 text-slate-600 hover:bg-violet-100"}`}
                 >
                   <Video size={14} /> نص إلى فيديو
                 </button>
                 <label
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition-all ${videoImage ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-500"}`}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold cursor-pointer transition-all ${videoImage ? "bg-gradient-to-l from-[#312E81] to-indigo-600 text-white shadow-md shadow-indigo-200" : "bg-violet-50 text-slate-600 hover:bg-violet-100"}`}
                 >
                   <ImageIcon size={14} /> صورة إلى فيديو
                   <input
@@ -710,7 +710,7 @@ export default function UserDashboard() {
                 onChange={(e) => setVideoPrompt(e.target.value)}
                 placeholder="مثال: منظر طبيعي خلاب مع غروب الشمس وحركة الأمواج..."
                 rows={4}
-                className="w-full bg-[#F8F9FF] border border-gray-200 rounded-2xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none placeholder:text-gray-300"
+                className="w-full bg-[#F8F8FC] border border-violet-100 rounded-2xl p-4 text-sm leading-7 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 resize-none placeholder:text-slate-400 transition-shadow"
               />
 
               {videoError && (
@@ -758,7 +758,7 @@ export default function UserDashboard() {
               <button
                 onClick={handleVideoGenerate}
                 disabled={videoLoading || !videoPrompt.trim()}
-                className="w-full py-4 rounded-2xl font-bold text-white text-sm bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all shadow-lg disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full py-4 rounded-2xl font-bold text-white text-sm bg-gradient-to-l from-[#312E81] via-indigo-700 to-indigo-500 hover:from-[#27236e] hover:to-indigo-600 transition-all shadow-lg shadow-indigo-200/70 disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {videoLoading ? (
                   <>
@@ -775,7 +775,7 @@ export default function UserDashboard() {
             </div>
 
             {videoResult && (
-              <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-5">
+              <div className="bg-white rounded-3xl border border-violet-100/80 shadow-[0_12px_36px_rgba(49,46,129,0.06)] p-5">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-bold text-gray-900">النتيجة ✓</h3>
                   <a
@@ -821,7 +821,7 @@ export default function UserDashboard() {
                 />
               </div>
             ) : profile?.usage?.length === 0 ? (
-              <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-12 text-center">
+              <div className="bg-white rounded-3xl border border-violet-100/80 shadow-[0_12px_36px_rgba(49,46,129,0.06)] p-12 text-center">
                 <div className="text-6xl mb-4">🎨</div>
                 <h3 className="font-bold text-gray-900 text-lg mb-2">
                   لا يوجد سجل بعد
@@ -871,7 +871,7 @@ export default function UserDashboard() {
                   ))}
                 </div>
 
-                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="bg-white rounded-3xl border border-violet-100/80 shadow-[0_12px_36px_rgba(49,46,129,0.06)] overflow-hidden">
                   <div className="divide-y divide-gray-50">
                     {profile?.usage?.map((item, i) => (
                       <div
@@ -930,7 +930,7 @@ export default function UserDashboard() {
             </div>
 
             {/* بطاقة المعلومات */}
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 mb-5">
+            <div className="bg-white rounded-3xl border border-violet-100/80 shadow-[0_12px_36px_rgba(49,46,129,0.06)] p-6 mb-5">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-400 to-violet-500 flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
                   {user.name
@@ -1001,7 +1001,7 @@ export default function UserDashboard() {
             </div>
 
             {/* الأمان */}
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 mb-5">
+            <div className="bg-white rounded-3xl border border-violet-100/80 shadow-[0_12px_36px_rgba(49,46,129,0.06)] p-6 mb-5">
               <h3 className="font-bold text-gray-900 mb-4">🔒 الأمان</h3>
               <a
                 href="/account/forgot-password"
@@ -1030,12 +1030,12 @@ export default function UserDashboard() {
       </div>
 
       {/* Mobile Bottom Nav */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around py-2 z-30 shadow-lg">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 border-t border-violet-100 flex justify-around py-2 z-30 shadow-[0_-8px_28px_rgba(49,46,129,0.09)] backdrop-blur">
         {navItems.map(({ key, label, icon: Icon }) => (
           <button
             key={key}
             onClick={() => setActiveTab(key)}
-            className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-all ${activeTab === key ? "text-indigo-600" : "text-gray-400"}`}
+            className={`flex flex-col items-center gap-0.5 min-w-0 px-2.5 py-2 rounded-xl transition-all ${activeTab === key ? "text-indigo-700 bg-indigo-50" : "text-slate-400"}`}
           >
             <Icon size={20} />
             <span className="text-[10px] font-bold">{label}</span>

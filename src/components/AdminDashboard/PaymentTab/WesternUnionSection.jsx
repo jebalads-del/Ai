@@ -1,6 +1,6 @@
 export function WesternUnionSection({ payment, setPayment }) {
   return (
-    <div className="border border-yellow-100 rounded-2xl p-4 bg-yellow-50/30">
+    <div className="border border-violet-100 rounded-2xl p-4 sm:p-5 bg-violet-50/30">
       <div className="flex items-center gap-2 mb-3">
         <span className="text-2xl">🌐</span>
         <h3 className="font-bold text-gray-900">Western Union</h3>
@@ -17,7 +17,7 @@ export function WesternUnionSection({ payment, setPayment }) {
           "الاسم: محمد أحمد\nالدولة: المملكة العربية السعودية\nالمدينة: الرياض\nالهاتف: +9665xxxxxxxx"
         }
         rows={4}
-        className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none"
+        className="w-full bg-white border border-violet-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 resize-none leading-7"
       />
     </div>
   );

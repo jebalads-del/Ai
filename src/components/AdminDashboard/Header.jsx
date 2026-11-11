@@ -1,6 +1,6 @@
 export function Header() {
   return (
-    <div className="bg-gradient-to-l from-[#1E1B4B] to-[#4F46E5] text-white px-6 py-5 flex items-center justify-between">
+    <div className="bg-gradient-to-l from-[#1E1B4B] via-[#312E81] to-[#4F46E5] text-white px-4 sm:px-7 py-5 flex items-center justify-between shadow-xl shadow-indigo-950/10">
       <div className="flex items-center gap-3">
         <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
           ✨
@@ -12,7 +12,7 @@ export function Header() {
       </div>
       <a
         href="/dashboard"
-        className="bg-white/10 hover:bg-white/20 text-white text-xs font-bold px-4 py-2 rounded-xl"
+        className="bg-white/10 hover:bg-white/20 border border-white/15 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors"
       >
         ← الموقع
       </a>

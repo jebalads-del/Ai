@@ -110,7 +110,7 @@ export default function AdminDashboard() {
 
   return (
     <div
-      className="min-h-screen bg-[#F0F2FF] font-tajawal text-right"
+      className="min-h-screen bg-[#F5F4FB] font-tajawal text-right text-slate-800"
       dir="rtl"
     >
       <Header />

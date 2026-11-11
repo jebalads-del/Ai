@@ -39,7 +39,7 @@ export function UpgradeModal({ user, plans, onClose, onSuccess, showToast }) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden">
+      <div className="bg-white rounded-3xl shadow-2xl shadow-indigo-950/20 w-full max-w-md overflow-hidden border border-violet-100">
         <div className="h-1.5 bg-gradient-to-l from-indigo-600 to-violet-600" />
         <div className="p-6">
           {/* Header */}
@@ -80,7 +80,7 @@ export function UpgradeModal({ user, plans, onClose, onSuccess, showToast }) {
                 <button
                   key={plan.id}
                   onClick={() => setSelectedPlan(plan.id)}
-                  className={`w-full flex items-center justify-between p-4 rounded-2xl border-2 transition-all text-right ${selectedPlan === plan.id ? "border-indigo-500 bg-indigo-50/70" : "border-gray-100 hover:border-gray-200 bg-gray-50/50"}`}
+                  className={`w-full flex items-center justify-between p-4 rounded-2xl border-2 transition-all text-right ${selectedPlan === plan.id ? "border-indigo-500 bg-indigo-50/70 shadow-sm shadow-indigo-100" : "border-violet-100 hover:border-indigo-200 bg-[#F8F8FC]"}`}
                 >
                   <div>
                     <p className="font-bold text-gray-900 text-sm">
@@ -131,7 +131,7 @@ export function UpgradeModal({ user, plans, onClose, onSuccess, showToast }) {
             <button
               onClick={handleUpgrade}
               disabled={!selectedPlan || loading}
-              className="flex-1 bg-indigo-600 text-white py-3.5 rounded-2xl font-bold text-sm hover:bg-indigo-700 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+              className="flex-1 bg-gradient-to-l from-[#312E81] to-indigo-600 text-white py-3.5 rounded-2xl font-bold text-sm hover:to-indigo-700 shadow-md shadow-indigo-200 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>

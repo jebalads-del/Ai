@@ -34,7 +34,7 @@ export function PlanForm({
   ];
 
   return (
-    <div className="bg-white rounded-3xl border-2 border-indigo-100 shadow-sm p-6 mb-6">
+    <div className="bg-white rounded-3xl border border-indigo-100 shadow-[0_12px_32px_rgba(49,46,129,0.07)] p-5 sm:p-6 mb-6">
       <h3 className="font-bold text-gray-900 mb-5">
         {editingPlan ? "✏️ تعديل الخطة" : "➕ إضافة خطة جديدة"}
       </h3>
@@ -51,7 +51,7 @@ export function PlanForm({
                 setPlanForm((p) => ({ ...p, [f.key]: e.target.value }))
               }
               placeholder={f.placeholder}
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full bg-[#F8F8FC] border border-violet-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-shadow"
             />
           </div>
         ))}
@@ -60,7 +60,7 @@ export function PlanForm({
         <button
           onClick={handleSavePlan}
           disabled={planSaving}
-          className="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold text-sm hover:bg-indigo-700 disabled:opacity-50"
+          className="bg-gradient-to-l from-[#312E81] to-indigo-600 text-white px-6 py-3 rounded-2xl font-bold text-sm hover:to-indigo-700 shadow-md shadow-indigo-200 disabled:opacity-50 transition-all"
         >
           {planSaving
             ? "جاري الحفظ..."

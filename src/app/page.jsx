@@ -155,7 +155,7 @@ export default function LandingPage() {
               )}
             </div>
 
-            <div className="md:hidden">
+            <div className="md:hidden order-first">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="text-slate-400"
@@ -212,36 +212,55 @@ export default function LandingPage() {
           aria-labelledby="hero-heading"
           className="py-24 md:py-32 px-4 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-950/50 via-[#0b0920] to-[#080717]"
         >
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-1.5 bg-cyan-400/10 text-cyan-300 rounded-full px-3 py-1.5 text-sm font-medium mb-8">
-              <Sparkles size={14} />
-              <span>مدعوم بأحدث تقنيات الذكاء الاصطناعي DALL-E 3</span>
+          <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-12 lg:gap-16">
+            <div className="text-center md:text-right">
+              <div className="inline-flex items-center gap-1.5 bg-cyan-400/10 text-cyan-300 rounded-full px-3 py-1.5 text-sm font-medium mb-8">
+                <Sparkles size={14} />
+                <span>مدعوم بأحدث تقنيات الذكاء الاصطناعي DALL-E 3</span>
+              </div>
+              <h1
+                id="hero-heading"
+                className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-100 mb-6 tracking-tight leading-tight"
+              >
+                حول خيالك إلى <span className="text-cyan-300">واقع بصري</span>{" "}
+                مذهل
+              </h1>
+              <p className="text-lg text-slate-400 mb-10 max-w-2xl mx-auto md:mx-0 leading-relaxed">
+                أنشئ الصور، عدل التصاميم، واصنع فيديوهات احترافية في ثوانٍ باستخدام
+                أقوى أدوات الذكاء الاصطناعي. ابدأ رحلتك الإبداعية اليوم مجاناً.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+                <a
+                  href="/account/signup"
+                  className="w-full sm:w-auto bg-gradient-to-l from-cyan-500 to-indigo-600 text-white px-8 py-4 rounded-2xl font-semibold hover:from-cyan-400 hover:to-indigo-500 transition-all flex items-center justify-center gap-2"
+                >
+                  ابدأ تجربتك المجانية
+                  <ArrowRight size={20} className="rotate-180" />
+                </a>
+                <a
+                  href="#features"
+                  className="w-full sm:w-auto border border-white/10 bg-[#100d25] text-slate-100 px-8 py-4 rounded-xl font-semibold hover:bg-white/5 transition-all"
+                >
+                  استكشف المميزات
+                </a>
+              </div>
             </div>
-            <h1
-              id="hero-heading"
-              className="text-4xl md:text-6xl font-semibold text-slate-100 mb-6 tracking-tight leading-tight"
-            >
-              حول خيالك إلى <span className="text-cyan-300">واقع بصري</span>{" "}
-              مذهل
-            </h1>
-            <p className="text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-              أنشئ الصور، عدل التصاميم، واصنع فيديوهات احترافية في ثوانٍ باستخدام
-              أقوى أدوات الذكاء الاصطناعي. ابدأ رحلتك الإبداعية اليوم مجاناً.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="/account/signup"
-                className="w-full sm:w-auto bg-gradient-to-l from-cyan-500 to-indigo-600 text-white px-8 py-4 rounded-2xl font-semibold hover:from-cyan-400 hover:to-indigo-500 transition-all flex items-center justify-center gap-2"
-              >
-                ابدأ تجربتك المجانية
-                <ArrowRight size={20} className="rotate-180" />
-              </a>
-              <a
-                href="#features"
-                className="w-full sm:w-auto border border-white/10 bg-[#100d25] text-slate-100 px-8 py-4 rounded-xl font-semibold hover:bg-white/5 transition-all"
-              >
-                استكشف المميزات
-              </a>
+            <div className="relative mx-auto w-full max-w-2xl">
+              <div className="absolute -inset-5 rounded-[2rem] bg-cyan-500/15 blur-3xl" />
+              <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-[#100d25] shadow-2xl shadow-indigo-950/50">
+                <img
+                  src="https://images.pexels.com/photos/29419772/pexels-photo-29419772.jpeg?auto=compress&cs=tinysrgb&w=1400"
+                  alt="عمل فني تجريدي بألوان نيون مستوحى من الإبداع الرقمي والذكاء الاصطناعي"
+                  className="aspect-video max-h-64 w-full object-cover md:max-h-80"
+                  loading="eager"
+                  fetchPriority="high"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#080717]/65 via-transparent to-indigo-950/10" />
+                <div className="absolute bottom-5 right-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-[#080717]/65 px-4 py-2 text-sm text-slate-100 backdrop-blur-md">
+                  <Sparkles size={16} className="text-cyan-300" />
+                  <span>الإبداع يبدأ بفكرة</span>
+                </div>
+              </div>
             </div>
           </div>
         </section>

@@ -69,16 +69,16 @@ export function SubscriptionRequestsTab({ showToast }) {
       : "—";
 
   return (
-    <div className="px-6 pb-10">
+    <div className="px-4 sm:px-7 pb-10 max-w-[1800px] mx-auto">
       {/* Header + Filter */}
-      <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
         <div>
           <h2 className="font-bold text-gray-900 text-lg">📩 طلبات الترقية</h2>
           <p className="text-gray-400 text-xs mt-0.5">
             الطلبات التي أرسلها المستخدمون لترقية اشتراكاتهم
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           {[
             { key: "pending", label: "⏳ قيد الانتظار" },
             { key: "approved", label: "✅ مقبولة" },
@@ -87,7 +87,7 @@ export function SubscriptionRequestsTab({ showToast }) {
             <button
               key={s.key}
               onClick={() => setFilter(s.key)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${filter === s.key ? "bg-indigo-600 text-white shadow" : "bg-white text-gray-500 border border-gray-200 hover:border-gray-300"}`}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${filter === s.key ? "bg-gradient-to-l from-[#312E81] to-indigo-600 text-white shadow-md shadow-indigo-200" : "bg-white text-slate-500 border border-violet-100 hover:border-indigo-200 hover:text-indigo-700"}`}
             >
               {s.label}
             </button>
@@ -125,7 +125,7 @@ export function SubscriptionRequestsTab({ showToast }) {
           {subRequests.map((req) => (
             <div
               key={req.id}
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden"
+              className="bg-white rounded-2xl border border-violet-100/80 shadow-[0_12px_32px_rgba(49,46,129,0.06)] overflow-hidden"
             >
               {/* Status bar */}
               <div
@@ -210,7 +210,7 @@ export function SubscriptionRequestsTab({ showToast }) {
                           value={rejectNote}
                           onChange={(e) => setRejectNote(e.target.value)}
                           placeholder="سبب الرفض (اختياري)..."
-                          className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-300 min-w-0"
+                          className="flex-1 border border-violet-100 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-300 min-w-0"
                         />
                         <button
                           onClick={() =>

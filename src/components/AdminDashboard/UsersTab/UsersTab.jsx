@@ -21,14 +21,14 @@ export function UsersTab({
   removingSubId,
 }) {
   return (
-    <div className="px-6 pb-10">
+    <div className="px-4 sm:px-7 pb-10 max-w-[1800px] mx-auto">
       <UsersSearch
         search={search}
         setSearch={setSearch}
         setPage={setPage}
         fetchUsers={fetchUsers}
       />
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-violet-100/80 shadow-[0_12px_32px_rgba(49,46,129,0.06)] overflow-hidden">
         {loading ? (
           <div className="flex justify-center py-20 text-gray-400">
             <div className="text-center">

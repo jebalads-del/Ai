@@ -18,7 +18,7 @@ export function BankTransferSection({ payment, setPayment }) {
   ];
 
   return (
-    <div className="border border-green-100 rounded-2xl p-4 bg-green-50/30">
+    <div className="border border-violet-100 rounded-2xl p-4 sm:p-5 bg-violet-50/30">
       <div className="flex items-center gap-2 mb-3">
         <span className="text-2xl">🏦</span>
         <h3 className="font-bold text-gray-900">التحويل البنكي</h3>
@@ -36,7 +36,7 @@ export function BankTransferSection({ payment, setPayment }) {
                 setPayment((p) => ({ ...p, [f.key]: e.target.value }))
               }
               placeholder={f.placeholder}
-              className={`w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 ${f.key === "bank_iban" ? "font-mono" : ""}`}
+              className={`w-full bg-white border border-violet-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 ${f.key === "bank_iban" ? "font-mono" : ""}`}
             />
           </div>
         ))}

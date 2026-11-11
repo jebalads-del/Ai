@@ -14,7 +14,7 @@ export function UsersTable({
   return (
     <table className="hidden md:table w-full">
       <thead>
-        <tr className="border-b border-gray-50 bg-gray-50/50">
+        <tr className="border-b border-violet-100 bg-violet-50/60">
           {[
             "المستخدم",
             "الحالة",
@@ -37,7 +37,7 @@ export function UsersTable({
         {users.map((u) => {
           const isVerified = !!u.email_verified;
           return (
-            <tr key={u.id} className="hover:bg-gray-50/50 transition-colors">
+            <tr key={u.id} className="hover:bg-violet-50/50 transition-colors">
               <td className="px-5 py-4">
                 <div className="flex items-center gap-3">
                   <UserAvatar name={u.name} email={u.email} />
@@ -79,7 +79,7 @@ export function UsersTable({
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <button
                     onClick={() => onUpgrade(u)}
-                    className="text-indigo-600 text-xs border border-indigo-200 px-3 py-1.5 rounded-xl hover:bg-indigo-50 font-bold whitespace-nowrap"
+                    className="text-indigo-700 text-xs border border-indigo-200 px-3 py-1.5 rounded-xl hover:bg-indigo-50 font-bold whitespace-nowrap transition-colors"
                   >
                     🔼 ترقية
                   </button>

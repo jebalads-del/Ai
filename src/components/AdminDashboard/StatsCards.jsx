@@ -27,11 +27,11 @@ export function StatsCards({ stats }) {
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 pb-0">
+    <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 px-4 sm:px-7 pt-5 sm:pt-7 max-w-[1800px] mx-auto">
       {cards.map((s) => (
         <div
           key={s.label}
-          className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm"
+          className="bg-white rounded-2xl p-4 sm:p-5 border border-violet-100/80 shadow-[0_10px_28px_rgba(49,46,129,0.05)] hover:-translate-y-0.5 transition-transform"
         >
           <div
             className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl mb-3 ${s.color}`}

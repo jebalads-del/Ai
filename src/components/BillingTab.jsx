@@ -84,14 +84,14 @@ export function BillingTab({ profile, profileLoading, plans, fetchProfile }) {
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-6 sm:space-y-7" dir="rtl">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">إدارة الاشتراك 💳</h1>
         <p className="text-gray-500 text-sm mt-1">خططك واستهلاكك الحالي</p>
       </div>
 
       {/* ── الخطة الحالية ── */}
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
+      <div className="bg-white rounded-3xl border border-violet-100/80 shadow-[0_12px_36px_rgba(49,46,129,0.06)] p-6">
         <div className="flex items-start justify-between mb-5">
           <div>
             <h3 className="font-bold text-gray-900 text-lg">
@@ -116,9 +116,9 @@ export function BillingTab({ profile, profileLoading, plans, fetchProfile }) {
               {usageCount} / {tokensLimit} عملية
             </span>
           </div>
-          <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
+          <div className="w-full h-3.5 bg-violet-100 rounded-full overflow-hidden">
             <div
-              className="h-full rounded-full transition-all"
+              className="h-full rounded-full transition-all shadow-[0_0_12px_rgba(79,70,229,0.25)]"
               style={{
                 width: `${usagePercent}%`,
                 background:
@@ -209,7 +209,7 @@ export function BillingTab({ profile, profileLoading, plans, fetchProfile }) {
                     !isCurrent && setSelectedPlan(isSelected ? null : plan)
                   }
                   disabled={isCurrent}
-                  className={`w-full flex items-center justify-between p-5 rounded-2xl border-2 transition-all text-right ${isCurrent ? "border-indigo-200 bg-indigo-50/50 opacity-70 cursor-default" : isSelected ? "border-indigo-500 bg-indigo-50" : "border-gray-100 bg-white hover:border-gray-300 cursor-pointer"}`}
+                  className={`w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 rounded-2xl border-2 transition-all text-right ${isCurrent ? "border-indigo-200 bg-indigo-50/50 opacity-70 cursor-default" : isSelected ? "border-indigo-500 bg-indigo-50 shadow-md shadow-indigo-100" : "border-violet-100 bg-white hover:border-indigo-300 hover:shadow-md hover:shadow-indigo-100/60 cursor-pointer"}`}
                 >
                   <div>
                     <div className="flex items-center gap-2 mb-0.5">
@@ -275,7 +275,7 @@ export function BillingTab({ profile, profileLoading, plans, fetchProfile }) {
               <button
                 onClick={handleSendRequest}
                 disabled={sending}
-                className="w-full py-3.5 rounded-2xl bg-indigo-600 text-white font-bold text-sm hover:bg-indigo-700 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                className="w-full py-3.5 rounded-2xl bg-gradient-to-l from-[#312E81] to-indigo-600 text-white font-bold text-sm hover:from-[#27236e] hover:to-indigo-700 shadow-md shadow-indigo-200 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
               >
                 {sending ? (
                   <>
@@ -298,7 +298,7 @@ export function BillingTab({ profile, profileLoading, plans, fetchProfile }) {
       )}
 
       {plans.length === 0 && !profileLoading && (
-        <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-8 text-center">
+        <div className="bg-white rounded-3xl border border-violet-100/80 shadow-[0_12px_36px_rgba(49,46,129,0.06)] p-8 text-center">
           <div className="text-4xl mb-3">📦</div>
           <p className="text-gray-500 text-sm">لا توجد خطط مضافة بعد</p>
           <p className="text-gray-400 text-xs mt-1">

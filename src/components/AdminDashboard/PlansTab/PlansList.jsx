@@ -25,14 +25,14 @@ export function PlansList({
       {plans.map((plan) => (
         <div
           key={plan.id}
-          className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5"
+          className="bg-white rounded-2xl border border-violet-100/80 shadow-[0_10px_28px_rgba(49,46,129,0.05)] p-5 hover:-translate-y-0.5 hover:shadow-md transition-all"
         >
           <div className="flex items-start justify-between mb-3">
             <h3 className="font-bold text-gray-900">{plan.name}</h3>
             <div className="flex gap-1.5">
               <button
                 onClick={() => startEditPlan(plan)}
-                className="text-indigo-600 text-xs border border-indigo-100 px-2.5 py-1.5 rounded-xl hover:bg-indigo-50 font-bold"
+                className="text-indigo-700 text-xs border border-indigo-100 px-2.5 py-1.5 rounded-xl hover:bg-indigo-50 font-bold transition-colors"
               >
                 تعديل
               </button>

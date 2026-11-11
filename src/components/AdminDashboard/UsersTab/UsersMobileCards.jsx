@@ -11,11 +11,11 @@ export function UsersMobileCards({
   removingSubId,
 }) {
   return (
-    <div className="md:hidden divide-y divide-gray-50">
+    <div className="md:hidden divide-y divide-violet-100/70">
       {users.map((u) => {
         const isVerified = !!u.email_verified;
         return (
-          <div key={u.id} className="p-4">
+          <div key={u.id} className="p-4 sm:p-5 hover:bg-violet-50/30 transition-colors">
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-3">
                 <UserAvatar name={u.name} email={u.email} />

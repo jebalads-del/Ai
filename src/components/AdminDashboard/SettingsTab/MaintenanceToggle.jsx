@@ -6,14 +6,14 @@ export function MaintenanceToggle({ settings, setSettings, handleSave }) {
   };
 
   return (
-    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
+    <div className="flex items-center justify-between gap-4 p-4 bg-violet-50/60 border border-violet-100 rounded-2xl">
       <div>
         <p className="font-semibold text-sm text-gray-800">وضع الصيانة</p>
         <p className="text-xs text-gray-400 mt-0.5">إيقاف جميع عمليات الموقع</p>
       </div>
       <button
         onClick={handleToggle}
-        className={`w-12 h-6 rounded-full transition-all relative ${settings.site_maintenance === "true" ? "bg-red-500" : "bg-gray-300"}`}
+        className={`w-12 h-6 rounded-full transition-all relative ${settings.site_maintenance === "true" ? "bg-red-500" : "bg-indigo-400"}`}
       >
         <div
           className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all ${settings.site_maintenance === "true" ? "left-1" : "right-1"}`}

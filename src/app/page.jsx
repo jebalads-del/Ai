@@ -216,11 +216,11 @@ export default function LandingPage() {
             <img
               src="https://images.pexels.com/photos/29419772/pexels-photo-29419772.jpeg?auto=compress&cs=tinysrgb&w=1400"
               alt=""
-              className="h-full w-full object-cover opacity-75"
+              className="h-full w-full object-cover opacity-100"
               loading="eager"
               fetchPriority="high"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#080717]/25 via-[#080717]/35 to-[#080717]/95" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#080717]/10 via-[#080717]/20 to-[#080717]/85" />
           </div>
           <div className="mx-auto max-w-4xl text-center">
             <div className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-cyan-300/15 bg-[#080717]/60 px-3 py-1.5 text-sm font-medium text-cyan-300 backdrop-blur-sm">

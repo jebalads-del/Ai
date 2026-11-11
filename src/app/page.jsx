@@ -73,38 +73,38 @@ export default function LandingPage() {
     {
       title: "إنشاء الصور من الوصف",
       description: "حول كلماتك إلى لوحات فنية مذهلة في ثوانٍ معدودة.",
-      icon: <Sparkles className="text-blue-600" size={24} />,
+      icon: <Sparkles className="text-cyan-300" size={24} />,
       badge: "جديد",
     },
     {
       title: "تعديل الصور بالذكاء الاصطناعي",
       description: "أضف عناصر أو غير الخلفيات بضغطة زر واحدة.",
-      icon: <ImageIcon className="text-blue-600" size={24} />,
+      icon: <ImageIcon className="text-cyan-300" size={24} />,
     },
     {
       title: "تحويل النص إلى فيديو",
       description: "اصنع فيديوهات سينمائية من مجرد وصف نصي بسيط.",
-      icon: <VideoIcon className="text-blue-600" size={24} />,
+      icon: <VideoIcon className="text-cyan-300" size={24} />,
     },
   ];
 
   return (
-    <div className="min-h-screen bg-white font-sans text-right" dir="rtl">
+    <div className="min-h-screen bg-[#080717] font-sans text-right text-slate-100" dir="rtl">
       {/* Structured Data */}
       <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
 
       {/* Navigation */}
       <nav
         aria-label="التنقل الرئيسي"
-        className="border-b border-gray-200 sticky top-0 bg-white z-50"
+        className="border-b border-white/10 sticky top-0 bg-[#080717]/90 backdrop-blur-xl z-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <div className="w-9 h-9 bg-gradient-to-br from-cyan-400 to-indigo-600 rounded-xl shadow-lg shadow-indigo-950/40 flex items-center justify-center">
                 <Sparkles className="text-white" size={18} />
               </div>
-              <span className="text-xl font-semibold text-gray-900 tracking-tight">
+              <span className="text-xl font-semibold text-slate-100 tracking-tight">
                 كرياتيف AI
               </span>
             </div>
@@ -112,13 +112,13 @@ export default function LandingPage() {
             <div className="hidden md:flex items-center gap-8 text-sm font-medium">
               <a
                 href="#features"
-                className="text-gray-500 hover:text-gray-900 transition-colors"
+                className="text-slate-400 hover:text-slate-100 transition-colors"
               >
                 المميزات
               </a>
               <a
                 href="#pricing"
-                className="text-gray-500 hover:text-gray-900 transition-colors"
+                className="text-slate-400 hover:text-slate-100 transition-colors"
               >
                 الأسعار
               </a>
@@ -133,7 +133,7 @@ export default function LandingPage() {
               {user ? (
                 <a
                   href="/dashboard"
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-500 transition-colors"
                 >
                   لوحة التحكم
                 </a>
@@ -141,13 +141,13 @@ export default function LandingPage() {
                 <div className="flex items-center gap-4">
                   <a
                     href="/account/signin"
-                    className="text-gray-500 hover:text-gray-900 transition-colors"
+                    className="text-slate-400 hover:text-slate-100 transition-colors"
                   >
                     تسجيل الدخول
                   </a>
                   <a
                     href="/account/signup"
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-500 transition-colors"
                   >
                     ابدأ مجاناً
                   </a>
@@ -158,7 +158,7 @@ export default function LandingPage() {
             <div className="md:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-500"
+                className="text-slate-400"
                 aria-label="فتح القائمة"
               >
                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -170,28 +170,28 @@ export default function LandingPage() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden border-b border-gray-200 bg-white px-4 py-6 space-y-4">
-          <a href="#features" className="block text-gray-900 font-medium">
+        <div className="md:hidden border-b border-white/10 bg-[#100d25] px-4 py-6 space-y-4">
+          <a href="#features" className="block text-slate-100 font-medium">
             المميزات
           </a>
-          <a href="#pricing" className="block text-gray-900 font-medium">
+          <a href="#pricing" className="block text-slate-100 font-medium">
             الأسعار
           </a>
           {user ? (
-            <a href="/dashboard" className="block text-blue-600 font-medium">
+            <a href="/dashboard" className="block text-cyan-300 font-medium">
               لوحة التحكم
             </a>
           ) : (
             <>
               <a
                 href="/account/signin"
-                className="block text-gray-900 font-medium"
+                className="block text-slate-100 font-medium"
               >
                 تسجيل الدخول
               </a>
               <a
                 href="/account/signup"
-                className="block text-blue-600 font-medium"
+                className="block text-cyan-300 font-medium"
               >
                 ابدأ مجاناً
               </a>
@@ -210,35 +210,35 @@ export default function LandingPage() {
         {/* Hero */}
         <section
           aria-labelledby="hero-heading"
-          className="py-20 px-4 bg-[#F9FAFB]"
+          className="py-24 md:py-32 px-4 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-950/50 via-[#0b0920] to-[#080717]"
         >
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-600 rounded-full px-3 py-1.5 text-sm font-medium mb-8">
+            <div className="inline-flex items-center gap-1.5 bg-cyan-400/10 text-cyan-300 rounded-full px-3 py-1.5 text-sm font-medium mb-8">
               <Sparkles size={14} />
               <span>مدعوم بأحدث تقنيات الذكاء الاصطناعي DALL-E 3</span>
             </div>
             <h1
               id="hero-heading"
-              className="text-4xl md:text-6xl font-semibold text-gray-900 mb-6 tracking-tight leading-tight"
+              className="text-4xl md:text-6xl font-semibold text-slate-100 mb-6 tracking-tight leading-tight"
             >
-              حول خيالك إلى <span className="text-blue-600">واقع بصري</span>{" "}
+              حول خيالك إلى <span className="text-cyan-300">واقع بصري</span>{" "}
               مذهل
             </h1>
-            <p className="text-lg text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
               أنشئ الصور، عدل التصاميم، واصنع فيديوهات احترافية في ثوانٍ باستخدام
               أقوى أدوات الذكاء الاصطناعي. ابدأ رحلتك الإبداعية اليوم مجاناً.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
                 href="/account/signup"
-                className="w-full sm:w-auto bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto bg-gradient-to-l from-cyan-500 to-indigo-600 text-white px-8 py-4 rounded-2xl font-semibold hover:from-cyan-400 hover:to-indigo-500 transition-all flex items-center justify-center gap-2"
               >
                 ابدأ تجربتك المجانية
                 <ArrowRight size={20} className="rotate-180" />
               </a>
               <a
                 href="#features"
-                className="w-full sm:w-auto border border-gray-200 bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-all"
+                className="w-full sm:w-auto border border-white/10 bg-[#100d25] text-slate-100 px-8 py-4 rounded-xl font-semibold hover:bg-white/5 transition-all"
               >
                 استكشف المميزات
               </a>
@@ -250,17 +250,17 @@ export default function LandingPage() {
         <section
           id="features"
           aria-labelledby="features-heading"
-          className="py-24 px-4 bg-white"
+          className="py-24 px-4 bg-[#080717]"
         >
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2
                 id="features-heading"
-                className="text-3xl font-semibold text-gray-900 mb-4 tracking-tight"
+                className="text-3xl font-semibold text-slate-100 mb-4 tracking-tight"
               >
                 أدوات إبداعية متكاملة
               </h2>
-              <p className="text-gray-500 max-w-xl mx-auto">
+              <p className="text-slate-400 max-w-xl mx-auto">
                 كل ما تحتاجه للإنتاج البصري في منصة واحدة سهلة الاستخدام.
               </p>
             </div>
@@ -268,22 +268,22 @@ export default function LandingPage() {
               {features.map((feature, idx) => (
                 <article
                   key={idx}
-                  className="bg-white rounded-xl border border-gray-200 p-8 hover:border-gray-300 transition-all"
+                  className="bg-gradient-to-b from-white/[0.045] to-transparent rounded-2xl border border-white/10 p-8 hover:border-cyan-300/30 hover:-translate-y-1 transition-all"
                 >
-                  <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6">
+                  <div className="w-12 h-12 bg-cyan-400/10 rounded-xl flex items-center justify-center mb-6">
                     {feature.icon}
                   </div>
                   <div className="flex items-center gap-2 mb-3">
-                    <h3 className="text-xl font-semibold text-gray-900">
+                    <h3 className="text-xl font-semibold text-slate-100">
                       {feature.title}
                     </h3>
                     {feature.badge && (
-                      <span className="bg-orange-50 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-orange-200">
+                      <span className="bg-cyan-400/10 text-cyan-200 text-[10px] font-bold px-2 py-0.5 rounded-full border border-cyan-300/20">
                         {feature.badge}
                       </span>
                     )}
                   </div>
-                  <p className="text-gray-500 leading-relaxed text-sm">
+                  <p className="text-slate-400 leading-relaxed text-sm">
                     {feature.description}
                   </p>
                 </article>
@@ -296,122 +296,122 @@ export default function LandingPage() {
         <section
           id="pricing"
           aria-labelledby="pricing-heading"
-          className="py-24 px-4 bg-[#F9FAFB] border-t border-gray-200"
+          className="py-24 px-4 bg-[#0b0920] border-t border-white/10"
         >
           <div className="max-w-7xl mx-auto text-center">
             <h2
               id="pricing-heading"
-              className="text-3xl font-semibold text-gray-900 mb-4 tracking-tight"
+              className="text-3xl font-semibold text-slate-100 mb-4 tracking-tight"
             >
               خطط تناسب طموحك
             </h2>
-            <p className="text-gray-500 mb-16">
+            <p className="text-slate-400 mb-16">
               اختر الخطة المناسبة وابدأ في الإبداع فوراً.
             </p>
             <div className="grid md:grid-cols-3 gap-8">
               {/* Free */}
-              <div className="bg-white rounded-xl border border-gray-200 p-8 flex flex-col items-start text-right">
-                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <div className="bg-[#100d25] rounded-2xl border border-white/10 p-8 flex flex-col items-start text-right">
+                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
                   التجريبية
                 </span>
                 <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-semibold text-gray-900">
+                  <span className="text-4xl font-semibold text-slate-100">
                     0
                   </span>
-                  <span className="text-gray-500 text-sm">$/شهرياً</span>
+                  <span className="text-slate-400 text-sm">$/شهرياً</span>
                 </div>
                 <ul
                   className="space-y-4 mb-8 w-full"
                   aria-label="مزايا الخطة المجانية"
                 >
-                  <li className="flex items-center text-sm text-gray-600">
-                    <span className="text-gray-400 ml-2">✓</span> 5 أجيال صور
+                  <li className="flex items-center text-sm text-slate-300">
+                    <span className="text-slate-500 ml-2">✓</span> 5 أجيال صور
                   </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <span className="text-gray-400 ml-2">✓</span> جودة قياسية
+                  <li className="flex items-center text-sm text-slate-300">
+                    <span className="text-slate-500 ml-2">✓</span> جودة قياسية
                   </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <span className="text-gray-400 ml-2">✓</span> دعم مجتمعي
+                  <li className="flex items-center text-sm text-slate-300">
+                    <span className="text-slate-500 ml-2">✓</span> دعم مجتمعي
                   </li>
                 </ul>
                 <a
                   href="/account/signup"
-                  className="w-full border border-gray-200 text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-50 transition-all text-center"
+                  className="w-full border border-white/10 text-slate-100 py-3 rounded-xl font-medium hover:bg-white/5 transition-all text-center"
                 >
                   ابدأ مجاناً
                 </a>
               </div>
 
               {/* Pro */}
-              <div className="bg-white rounded-xl border-2 border-blue-600 p-8 flex flex-col items-start text-right relative">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-widest">
+              <div className="bg-gradient-to-b from-indigo-950/70 to-[#100d25] rounded-2xl border border-indigo-400/60 p-8 flex flex-col items-start text-right relative shadow-xl shadow-indigo-950/30">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-indigo-600 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-widest">
                   الأكثر طلباً
                 </div>
-                <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-2">
+                <span className="text-xs font-semibold text-cyan-300 uppercase tracking-wider mb-2">
                   المميزة
                 </span>
                 <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-semibold text-gray-900">
+                  <span className="text-4xl font-semibold text-slate-100">
                     19
                   </span>
-                  <span className="text-gray-500 text-sm">$/شهرياً</span>
+                  <span className="text-slate-400 text-sm">$/شهرياً</span>
                 </div>
                 <ul
                   className="space-y-4 mb-8 w-full"
                   aria-label="مزايا الخطة المميزة"
                 >
-                  <li className="flex items-center text-sm text-gray-600">
-                    <span className="text-gray-400 ml-2">✓</span> 100 جيل شهرياً
+                  <li className="flex items-center text-sm text-slate-300">
+                    <span className="text-slate-500 ml-2">✓</span> 100 جيل شهرياً
                   </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <span className="text-gray-400 ml-2">✓</span> جودة 4K مذهلة
+                  <li className="flex items-center text-sm text-slate-300">
+                    <span className="text-slate-500 ml-2">✓</span> جودة 4K مذهلة
                   </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <span className="text-gray-400 ml-2">✓</span> أولوية في
+                  <li className="flex items-center text-sm text-slate-300">
+                    <span className="text-slate-500 ml-2">✓</span> أولوية في
                     المعالجة
                   </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <span className="text-gray-400 ml-2">✓</span> دعم فني 24/7
+                  <li className="flex items-center text-sm text-slate-300">
+                    <span className="text-slate-500 ml-2">✓</span> دعم فني 24/7
                   </li>
                 </ul>
                 <a
                   href="/account/signup"
-                  className="w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition-all text-center"
+                  className="w-full bg-gradient-to-l from-cyan-500 to-indigo-600 text-white py-3 rounded-xl font-medium hover:from-cyan-400 hover:to-indigo-500 transition-all text-center"
                 >
                   اشترك الآن
                 </a>
               </div>
 
               {/* Ultimate */}
-              <div className="bg-white rounded-xl border border-gray-200 p-8 flex flex-col items-start text-right">
-                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              <div className="bg-[#100d25] rounded-2xl border border-white/10 p-8 flex flex-col items-start text-right">
+                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
                   غير المحدودة
                 </span>
                 <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-semibold text-gray-900">
+                  <span className="text-4xl font-semibold text-slate-100">
                     49
                   </span>
-                  <span className="text-gray-500 text-sm">$/شهرياً</span>
+                  <span className="text-slate-400 text-sm">$/شهرياً</span>
                 </div>
                 <ul
                   className="space-y-4 mb-8 w-full"
                   aria-label="مزايا الخطة غير المحدودة"
                 >
-                  <li className="flex items-center text-sm text-gray-600">
-                    <span className="text-gray-400 ml-2">✓</span> أجيال غير
+                  <li className="flex items-center text-sm text-slate-300">
+                    <span className="text-slate-500 ml-2">✓</span> أجيال غير
                     محدودة
                   </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <span className="text-gray-400 ml-2">✓</span> تحكم كامل
+                  <li className="flex items-center text-sm text-slate-300">
+                    <span className="text-slate-500 ml-2">✓</span> تحكم كامل
                     بالواجهة البرمجية
                   </li>
-                  <li className="flex items-center text-sm text-gray-600">
-                    <span className="text-gray-400 ml-2">✓</span> مدير حساب مخصص
+                  <li className="flex items-center text-sm text-slate-300">
+                    <span className="text-slate-500 ml-2">✓</span> مدير حساب مخصص
                   </li>
                 </ul>
                 <a
                   href="/account/signup"
-                  className="w-full border border-gray-200 text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-50 transition-all text-center"
+                  className="w-full border border-white/10 text-slate-100 py-3 rounded-xl font-medium hover:bg-white/5 transition-all text-center"
                 >
                   تواصل معنا
                 </a>
@@ -422,17 +422,17 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="py-12 px-4 border-t border-gray-200 bg-white text-center">
+      <footer className="py-12 px-4 border-t border-white/10 bg-[#100d25] text-center">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+            <div className="w-7 h-7 bg-gradient-to-br from-cyan-400 to-indigo-600 rounded-lg flex items-center justify-center">
               <Sparkles className="text-white" size={14} />
             </div>
-            <span className="text-lg font-semibold text-gray-900 tracking-tight">
+            <span className="text-lg font-semibold text-slate-100 tracking-tight">
               كرياتيف AI
             </span>
           </div>
-          <p className="text-gray-500 text-sm mb-4">
+          <p className="text-slate-400 text-sm mb-4">
             © 2026 كرياتيف AI — منصة إنشاء الصور بالذكاء الاصطناعي. جميع الحقوق
             محفوظة.
           </p>
@@ -442,14 +442,14 @@ export default function LandingPage() {
           >
             <a
               href="/sitemap.xml"
-              className="text-gray-400 hover:text-gray-600"
+              className="text-slate-500 hover:text-slate-300"
             >
               خريطة الموقع
             </a>
-            <a href="#" className="text-gray-500 hover:text-gray-900">
+            <a href="#" className="text-slate-400 hover:text-slate-100">
               سياسة الخصوصية
             </a>
-            <a href="#" className="text-gray-500 hover:text-gray-900">
+            <a href="#" className="text-slate-400 hover:text-slate-100">
               الشروط والأحكام
             </a>
           </nav>

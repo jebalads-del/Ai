@@ -44,14 +44,14 @@ function MainComponent() {
 
   return (
     <div
-      className="min-h-screen w-full flex items-center justify-center bg-[#F0F2FF] p-4 font-tajawal"
+      className="min-h-screen w-full flex items-center justify-center bg-[#080717] p-4 sm:p-6 font-tajawal text-slate-100"
       dir="rtl"
     >
-      <div className="w-full max-w-4xl flex rounded-3xl overflow-hidden shadow-2xl shadow-indigo-200">
+      <div className="w-full max-w-5xl flex rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl shadow-indigo-950/50">
         {/* Left Brand Panel */}
-        <div className="hidden md:flex flex-col justify-between w-[45%] bg-gradient-to-br from-[#1E1B4B] via-[#3730A3] to-[#4F46E5] p-10 text-white relative overflow-hidden">
-          <div className="absolute top-[-60px] left-[-60px] w-64 h-64 rounded-full bg-[#818CF8] opacity-20 blur-3xl pointer-events-none" />
-          <div className="absolute bottom-[-40px] right-[-40px] w-48 h-48 rounded-full bg-[#C7D2FE] opacity-10 blur-3xl pointer-events-none" />
+        <div className="hidden md:flex flex-col justify-between w-[45%] bg-gradient-to-br from-[#11102b] via-[#24205d] to-[#3730a3] p-10 lg:p-12 text-white relative overflow-hidden">
+          <div className="absolute top-[-60px] left-[-60px] w-64 h-64 rounded-full bg-cyan-300 opacity-20 blur-3xl pointer-events-none" />
+          <div className="absolute bottom-[-40px] right-[-40px] w-48 h-48 rounded-full bg-violet-300 opacity-15 blur-3xl pointer-events-none" />
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-12">
               <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center text-lg">
@@ -68,7 +68,7 @@ function MainComponent() {
               <br />
               اليوم مجاناً
             </h2>
-            <p className="text-indigo-200 text-sm leading-relaxed">
+            <p className="text-indigo-100 text-sm leading-relaxed">
               انضم لآلاف المبدعين الذين يستخدمون كرياتيف AI لإنتاج محتوى مذهل.
             </p>
           </div>
@@ -81,7 +81,7 @@ function MainComponent() {
             ].map((f) => (
               <div
                 key={f.text}
-                className="flex items-center gap-3 bg-white/10 backdrop-blur rounded-xl px-4 py-3"
+                className="flex items-center gap-3 bg-white/[0.07] border border-white/10 backdrop-blur rounded-2xl px-4 py-3"
               >
                 <span className="text-lg">{f.icon}</span>
                 <span className="text-sm font-medium">{f.text}</span>
@@ -91,18 +91,18 @@ function MainComponent() {
         </div>
 
         {/* Right Form Panel */}
-        <div className="flex-1 bg-white p-8 md:p-12 flex flex-col justify-center">
+        <div className="flex-1 bg-[#100d25] p-7 sm:p-9 md:p-12 flex flex-col justify-center">
           <div className="flex md:hidden items-center gap-2 mb-8">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-indigo-500 flex items-center justify-center text-white">
               ✨
             </div>
-            <span className="text-lg font-bold text-gray-900">كرياتيف AI</span>
+            <span className="text-lg font-bold text-slate-100">كرياتيف AI</span>
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">
+          <h1 className="text-2xl font-bold text-slate-100 mb-1">
             إنشاء حساب جديد ✨
           </h1>
-          <p className="text-gray-400 text-sm mb-8">
+          <p className="text-slate-400 text-sm mb-8">
             ابدأ مجاناً، لا حاجة لبطاقة ائتمانية
           </p>
 
@@ -111,7 +111,7 @@ function MainComponent() {
             onClick={() =>
               signInWithGoogle({ callbackUrl: "/dashboard", redirect: true })
             }
-            className="w-full flex items-center justify-center gap-3 border border-gray-200 py-3.5 rounded-2xl hover:bg-gray-50 transition-all font-medium text-sm text-gray-700 mb-6 shadow-sm"
+            className="w-full flex items-center justify-center gap-3 border border-white/10 py-3.5 rounded-2xl hover:bg-white/5 transition-all font-medium text-sm text-slate-200 mb-6 shadow-sm"
           >
             <svg width="18" height="18" viewBox="0 0 18 18">
               <path
@@ -135,16 +135,16 @@ function MainComponent() {
           </button>
 
           <div className="relative flex items-center gap-4 mb-6">
-            <div className="flex-1 h-px bg-gray-100" />
-            <span className="text-xs text-gray-400 whitespace-nowrap">
+            <div className="flex-1 h-px bg-white/10" />
+            <span className="text-xs text-slate-400 whitespace-nowrap">
               أو بالبريد الإلكتروني
             </span>
-            <div className="flex-1 h-px bg-gray-100" />
+            <div className="flex-1 h-px bg-white/10" />
           </div>
 
           <form noValidate onSubmit={onSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1.5">
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
                 الاسم الكامل
               </label>
               <input
@@ -152,11 +152,11 @@ function MainComponent() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="محمد أحمد"
-                className="w-full bg-[#F8F9FF] border border-[#E2E8F0] rounded-xl px-4 py-3.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all placeholder:text-gray-300"
+                className="w-full bg-[#17132f] border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-400/70 focus:border-transparent transition-all placeholder:text-slate-500"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1.5">
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
                 البريد الإلكتروني
               </label>
               <input
@@ -164,11 +164,11 @@ function MainComponent() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="example@email.com"
-                className="w-full bg-[#F8F9FF] border border-[#E2E8F0] rounded-xl px-4 py-3.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all placeholder:text-gray-300"
+                className="w-full bg-[#17132f] border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-400/70 focus:border-transparent transition-all placeholder:text-slate-500"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1.5">
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
                 كلمة المرور
               </label>
               <div className="relative">
@@ -177,12 +177,12 @@ function MainComponent() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="6 أحرف على الأقل"
-                  className="w-full bg-[#F8F9FF] border border-[#E2E8F0] rounded-xl px-4 py-3.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all placeholder:text-gray-300"
+                  className="w-full bg-[#17132f] border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-400/70 focus:border-transparent transition-all placeholder:text-slate-500"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPass(!showPass)}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 text-xs"
                 >
                   {showPass ? "إخفاء" : "إظهار"}
                 </button>
@@ -190,7 +190,7 @@ function MainComponent() {
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 text-xs text-red-600 bg-red-50 border border-red-100 p-3 rounded-xl">
+              <div className="flex items-center gap-2 text-xs text-red-300 bg-red-400/10 border border-red-300/20 p-3 rounded-xl">
                 <span>⚠️</span>
                 <span>{error}</span>
               </div>
@@ -199,28 +199,28 @@ function MainComponent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 rounded-2xl font-bold text-white text-sm bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all shadow-lg shadow-indigo-200 disabled:opacity-50"
+              className="w-full py-4 rounded-2xl font-bold text-white text-sm bg-gradient-to-l from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 transition-all shadow-lg shadow-indigo-950/50 disabled:opacity-50"
             >
               {loading ? "جاري الإنشاء..." : "ابدأ الآن مجاناً 🚀"}
             </button>
 
-            <p className="text-xs text-gray-400 text-center">
+            <p className="text-xs text-slate-400 text-center">
               بالتسجيل أنت توافق على{" "}
-              <span className="text-indigo-600 cursor-pointer">
+              <span className="text-cyan-300 cursor-pointer">
                 شروط الاستخدام
               </span>{" "}
               و{" "}
-              <span className="text-indigo-600 cursor-pointer">
+              <span className="text-cyan-300 cursor-pointer">
                 سياسة الخصوصية
               </span>
             </p>
           </form>
 
-          <p className="text-center text-sm text-gray-400 mt-4">
+          <p className="text-center text-sm text-slate-400 mt-4">
             لديك حساب بالفعل؟{" "}
             <a
               href="/account/signin"
-              className="text-indigo-600 font-bold hover:underline"
+              className="text-cyan-300 font-bold hover:underline"
             >
               سجّل دخولك
             </a>

@@ -34,18 +34,18 @@ function MainComponent() {
 
   return (
     <div
-      className="min-h-screen w-full flex items-center justify-center bg-[#F0F2FF] p-4 font-tajawal"
+      className="min-h-screen w-full flex items-center justify-center bg-[#080717] p-4 sm:p-6 font-tajawal text-slate-100"
       dir="rtl"
     >
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl shadow-indigo-200 overflow-hidden">
-        <div className="h-2 bg-gradient-to-l from-indigo-600 to-violet-600" />
+      <div className="w-full max-w-lg bg-[#100d25] rounded-[2rem] border border-white/10 shadow-2xl shadow-indigo-950/50 overflow-hidden">
+        <div className="h-1.5 bg-gradient-to-l from-cyan-400 via-indigo-500 to-violet-600" />
 
-        <div className="p-10 text-center">
+        <div className="p-7 sm:p-10 text-center">
           {status === "loading" && (
             <>
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-100 to-violet-100 flex items-center justify-center mx-auto mb-6">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-cyan-400/15 to-indigo-500/20 border border-cyan-300/10 flex items-center justify-center mx-auto mb-6">
                 <svg
-                  className="w-10 h-10 text-indigo-600 spin-anim"
+                  className="w-10 h-10 text-cyan-300 spin-anim"
                   viewBox="0 0 24 24"
                   fill="none"
                 >
@@ -64,28 +64,28 @@ function MainComponent() {
                   />
                 </svg>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-slate-100 mb-2">
                 جاري التحقق...
               </h1>
-              <p className="text-gray-400 text-sm">يرجى الانتظار لحظة</p>
+              <p className="text-slate-400 text-sm">يرجى الانتظار لحظة</p>
             </>
           )}
 
           {status === "success" && (
             <>
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center text-5xl mx-auto mb-6">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-400/15 to-cyan-400/15 border border-emerald-300/10 flex items-center justify-center text-5xl mx-auto mb-6">
                 ✅
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-slate-100 mb-2">
                 تم التحقق بنجاح!
               </h1>
-              <p className="text-gray-400 text-sm mb-8">
+              <p className="text-slate-400 text-sm mb-8">
                 تم تأكيد بريدك الإلكتروني. يمكنك الآن الاستمتاع بجميع مميزات
                 كرياتيف AI.
               </p>
               <a
                 href="/dashboard"
-                className="block w-full py-4 rounded-2xl font-bold text-white text-sm bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all shadow-lg shadow-indigo-200 text-center"
+                className="block w-full py-4 rounded-2xl font-bold text-white text-sm bg-gradient-to-l from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 transition-all shadow-lg shadow-indigo-950/50 text-center"
               >
                 الذهاب إلى لوحة التحكم 🚀
               </a>
@@ -94,22 +94,22 @@ function MainComponent() {
 
           {status === "error" && (
             <>
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-red-100 to-orange-100 flex items-center justify-center text-5xl mx-auto mb-6">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-red-400/15 to-orange-400/10 border border-red-300/10 flex items-center justify-center text-5xl mx-auto mb-6">
                 ❌
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-slate-100 mb-2">
                 فشل التحقق
               </h1>
-              <p className="text-gray-400 text-sm mb-8">{message}</p>
+              <p className="text-slate-400 text-sm mb-8">{message}</p>
               <a
                 href="/account/verify-email-sent"
-                className="block w-full py-4 rounded-2xl font-bold text-white text-sm bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all shadow-lg shadow-indigo-200 text-center mb-3"
+                className="block w-full py-4 rounded-2xl font-bold text-white text-sm bg-gradient-to-l from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 transition-all shadow-lg shadow-indigo-950/50 text-center mb-3"
               >
                 إعادة إرسال رابط التحقق
               </a>
               <a
                 href="/account/signin"
-                className="text-sm text-gray-400 hover:text-indigo-600 transition-colors"
+                className="text-sm text-slate-400 hover:text-cyan-300 transition-colors"
               >
                 العودة لتسجيل الدخول
               </a>

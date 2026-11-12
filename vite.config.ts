@@ -15,6 +15,9 @@ import { restartEnvFileChange } from './plugins/restartEnvFileChange';
 
 export default defineConfig({
   envPrefix: 'NEXT_PUBLIC_',
+  build: {
+    target: 'esnext',
+  },
   optimizeDeps: {
     include: ['fast-glob'],
     exclude: [

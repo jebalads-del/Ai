@@ -13,11 +13,9 @@ import { nextPublicProcessEnv } from './plugins/nextPublicProcessEnv';
 import { restart } from './plugins/restart';
 import { restartEnvFileChange } from './plugins/restartEnvFileChange';
 
-export default defineConfig({
+export default defineConfig(({ isSsrBuild }) => ({
   envPrefix: 'NEXT_PUBLIC_',
-  build: {
-    target: 'esnext',
-  },
+  ...(isSsrBuild ? { build: { target: 'node20' } } : {}),
   optimizeDeps: {
     include: ['fast-glob'],
     exclude: [
@@ -95,4 +93,4 @@ export default defineConfig({
       clientFiles: ['./src/app/**/*', './src/app/root.tsx', './src/app/routes.ts'],
     },
   },
-});
+}));

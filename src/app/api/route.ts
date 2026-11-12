@@ -1,1 +1,1 @@
-export const loader = () => ({ status: 'ok' });
+export const loader = () => ({ ok: true });

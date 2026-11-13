@@ -1,31 +1,51 @@
-import sql from "@/app/api/utils/sql";
-import { auth } from "@/auth";
+import { auth } from '@/auth';
 
 export async function GET() {
   try {
     const session = await auth();
     if (!session?.user?.id) {
-      return Response.json({ error: "غير مصرح" }, { status: 401 });
+      return Response.json({ error: 'غير مصرح' }, { status: 401 });
     }
-    const userId = session.user.id;
 
-    const [userRows, subRows, usageRows] = await sql.transaction([
-      sql`SELECT id, name, email, image, "emailVerified", role FROM auth_users WHERE id = ${userId} LIMIT 1`,
-      sql`SELECT s.status, s.created_at, p.name as plan_name, p.price, p.tokens_limit, p.description
-          FROM subscriptions s
-          JOIN plans p ON p.id = s.plan_id
-          WHERE s.user_id = ${String(userId)} AND s.status = 'active'
-          ORDER BY s.created_at DESC LIMIT 1`,
-      sql`SELECT type, created_at FROM usage_logs WHERE user_id = ${String(userId)} ORDER BY created_at DESC LIMIT 50`,
+    const { supabase, user } = session;
+    const [subscriptionResult, usageResult] = await Promise.all([
+      supabase
+        .from('subscriptions')
+        .select('status, created_at, plan:plans(name, price, tokens_limit, description)')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+      supabase
+        .from('usage_logs')
+        .select('type, created_at')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(50),
     ]);
 
+    if (subscriptionResult.error) throw subscriptionResult.error;
+    if (usageResult.error) throw usageResult.error;
+
+    const subscription = subscriptionResult.data
+      ? { ...subscriptionResult.data.plan, status: subscriptionResult.data.status, created_at: subscriptionResult.data.created_at }
+      : null;
+
     return Response.json({
-      user: userRows[0] || null,
-      subscription: subRows[0] || null,
-      usage: usageRows || [],
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+        role: user.role,
+        emailVerified: user.emailVerified,
+      },
+      subscription,
+      usage: usageResult.data || [],
     });
   } catch (error) {
-    console.error("profile error:", error);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('profile error:', error);
+    return Response.json({ error: 'تعذر تحميل الملف الشخصي' }, { status: 500 });
   }
 }

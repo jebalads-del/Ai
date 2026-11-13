@@ -1,4 +1,3 @@
-import sql from "@/app/api/utils/sql";
 import { auth } from "@/auth";
 
 export async function POST(request) {
@@ -16,20 +15,21 @@ export async function POST(request) {
       return Response.json({ error: "يرجى كتابة وصف للصورة" }, { status: 400 });
     }
 
-    const userId = String(session.user.id);
-
-    // التحقق من حد الاستخدام
-    const subRows = await sql`
-      SELECT p.tokens_limit FROM subscriptions s
-      JOIN plans p ON p.id = s.plan_id
-      WHERE s.user_id = ${userId} AND s.status = 'active'
-      LIMIT 1
-    `;
-    const tokensLimit = subRows[0]?.tokens_limit ?? 5;
-    const usageRows = await sql`
-      SELECT COUNT(*) AS cnt FROM usage_logs WHERE user_id = ${userId}
-    `;
-    const usedCount = Number(usageRows[0]?.cnt ?? 0);
+    const { data: activeSubscription, error: subscriptionError } = await session.supabase
+      .from('subscriptions')
+      .select('plan:plans(tokens_limit)')
+      .eq('user_id', session.user.id)
+      .eq('status', 'active')
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (subscriptionError) throw subscriptionError;
+    const tokensLimit = activeSubscription?.plan?.tokens_limit ?? 5;
+    const { count: usedCount, error: usageError } = await session.supabase
+      .from('usage_logs')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', session.user.id);
+    if (usageError) throw usageError;
 
     if (usedCount >= tokensLimit) {
       return Response.json(
@@ -160,8 +160,10 @@ export async function POST(request) {
       url.substring(0, 50) + "...",
     );
 
-    // تسجيل الاستخدام
-    await sql`INSERT INTO usage_logs (user_id, type) VALUES (${userId}, 'image')`;
+    const { error: logError } = await session.supabase
+      .from('usage_logs')
+      .insert({ user_id: session.user.id, type: 'image' });
+    if (logError) throw logError;
 
     return Response.json({ url });
   } catch (error) {

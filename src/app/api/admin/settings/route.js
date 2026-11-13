@@ -1,31 +1,42 @@
-import sql from "@/app/api/utils/sql";
+import { auth } from '@/auth';
 
 export async function GET() {
-  try {
-    const settings = await sql`SELECT * FROM admin_settings`;
-    const settingsMap = settings.reduce((acc, curr) => {
-      acc[curr.setting_key] = curr.setting_value;
-      return acc;
-    }, {});
-    return Response.json(settingsMap);
-  } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+  const session = await auth();
+  if (!session?.user?.id) {
+    return Response.json({ error: 'غير مصرح' }, { status: 401 });
   }
+
+  const { data, error } = await session.supabase
+    .from('admin_settings')
+    .select('setting_key, setting_value');
+  if (error) {
+    console.error('admin settings read failed:', error);
+    return Response.json({ error: 'تعذر تحميل الإعدادات' }, { status: 500 });
+  }
+  return Response.json(Object.fromEntries(data.map(({ setting_key, setting_value }) => [setting_key, setting_value])));
 }
 
 export async function POST(request) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return Response.json({ error: 'غير مصرح' }, { status: 401 });
+  }
+  if (session.user.role !== 'admin') {
+    return Response.json({ error: 'غير مصرح' }, { status: 403 });
+  }
+
   try {
-    const body = await request.json();
-    const { key, value } = body;
-
-    await sql`
-      INSERT INTO admin_settings (setting_key, setting_value)
-      VALUES (${key}, ${value})
-      ON CONFLICT (setting_key) DO UPDATE SET setting_value = ${value}
-    `;
-
+    const { key, value } = await request.json();
+    if (!key || typeof value !== 'string') {
+      return Response.json({ error: 'بيانات الإعداد غير صالحة' }, { status: 400 });
+    }
+    const { error } = await session.supabase
+      .from('admin_settings')
+      .upsert({ setting_key: key, setting_value: value });
+    if (error) throw error;
     return Response.json({ success: true });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('admin settings update failed:', error);
+    return Response.json({ error: 'تعذر حفظ الإعداد' }, { status: 500 });
   }
 }

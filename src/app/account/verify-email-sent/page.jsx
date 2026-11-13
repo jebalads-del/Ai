@@ -1,21 +1,20 @@
 import { useState, useEffect } from "react";
 import useUser from "@/utils/useUser";
+import { supabase } from "@/utils/supabase";
 
 function MainComponent() {
   const { data: user, loading: userLoading } = useUser();
+  const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [error, setError] = useState(null);
-  const [triggered, setTriggered] = useState(false);
 
   useEffect(() => {
-    // نرسل الإيميل فقط مرة واحدة بعد تحميل المستخدم
-    if (!userLoading && user?.email && !triggered) {
-      setTriggered(true);
-      sendVerification();
-    }
-  }, [user, userLoading, triggered]);
+    const requestedEmail = new URLSearchParams(window.location.search).get("email");
+    setEmail(user?.email || requestedEmail || "");
+    setSent(Boolean(requestedEmail));
+  }, [user]);
 
   useEffect(() => {
     if (countdown > 0) {
@@ -26,15 +25,15 @@ function MainComponent() {
 
   const sendVerification = async () => {
     if (sending || countdown > 0) return;
+    if (!email) {
+      setError("أدخل البريد الإلكتروني أولاً");
+      return;
+    }
     setSending(true);
     setError(null);
     try {
-      const res = await fetch("/api/send-verification", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "فشل الإرسال");
+      const { error } = await supabase.auth.resend({ type: "signup", email });
+      if (error) throw error;
       setSent(true);
       setCountdown(60);
     } catch (err) {
@@ -46,8 +45,7 @@ function MainComponent() {
   };
 
   // التحقق إذا كان البريد صحيحاً
-  const isValidEmail =
-    user?.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email);
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   return (
     <div
@@ -66,7 +64,7 @@ function MainComponent() {
             تحقق من بريدك الإلكتروني
           </h1>
 
-          {userLoading ? (
+          {userLoading && !email ? (
             <div className="flex items-center justify-center gap-2 text-slate-400 text-sm my-4">
               <div className="w-4 h-4 border-2 border-indigo-300 border-t-indigo-600 rounded-full loader-spin" />
               جاري التحميل...
@@ -77,16 +75,16 @@ function MainComponent() {
                 أرسلنا رابط التحقق إلى
               </p>
               <div className="inline-block bg-indigo-400/10 text-indigo-200 font-semibold text-sm px-4 py-2 rounded-full mb-6 border border-indigo-300/20">
-                {user.email}
+                {email}
               </div>
             </>
-          ) : user && !isValidEmail ? (
+          ) : email && !isValidEmail ? (
             <div className="bg-amber-400/10 border border-amber-300/20 rounded-2xl p-4 mb-6 text-right">
               <p className="text-amber-200 text-sm font-bold mb-1">
                 ⚠️ البريد الإلكتروني غير صحيح
               </p>
               <p className="text-amber-300 text-xs">
-                البريد المسجل <strong>"{user.email}"</strong> ليس بريداً
+                البريد المسجل <strong>"{email}"</strong> ليس بريداً
                 إلكترونياً صحيحاً. يرجى إنشاء حساب جديد بريد صحيح مثل:
                 name@gmail.com
               </p>
@@ -138,18 +136,8 @@ function MainComponent() {
                       🔑 الحل:
                     </p>
                     <p className="text-red-300 text-xs">
-                      يجب إضافة <strong>RESEND_API_KEY</strong> في إعدادات
-                      المشروع:
+                      تحقق من إعدادات البريد الإلكتروني في Supabase ثم حاول مجددًا.
                     </p>
-                    <ol className="text-red-300 text-xs mt-1 space-y-1 list-decimal list-inside">
-                      <li>
-                        اذهب إلى <strong>resend.com</strong> وأنشئ حساباً
-                      </li>
-                      <li>أنشئ API Key جديد</li>
-                      <li>
-                        أضفه في Secrets باسم <strong>RESEND_API_KEY</strong>
-                      </li>
-                    </ol>
                   </div>
                 </div>
               )}

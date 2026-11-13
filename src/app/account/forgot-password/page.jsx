@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { supabase } from "@/utils/supabase";
+
 function MainComponent() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,15 +17,10 @@ function MainComponent() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: new URL("/reset-password", window.location.origin).toString(),
       });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "حدث خطأ");
-      }
+      if (error) throw error;
       setSuccess(true);
     } catch (err) {
       console.error(err);

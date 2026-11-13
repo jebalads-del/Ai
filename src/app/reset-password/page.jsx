@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 
+import { supabase } from "@/utils/supabase";
+
 function MainComponent() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [token, setToken] = useState("");
+  const [ready, setReady] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
@@ -11,12 +13,12 @@ function MainComponent() {
   const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const t = params.get("token");
-      if (t) setToken(t);
-      else setError("رابط إعادة التعيين غير صالح أو منتهي الصلاحية");
-    }
+    supabase.auth.getSession().then(({ data, error }) => {
+      if (error || !data.session) {
+        setError("رابط إعادة التعيين غير صالح أو منتهي الصلاحية");
+      }
+      setReady(Boolean(data.session) && !error);
+    });
   }, []);
 
   const strength = (() => {
@@ -55,15 +57,8 @@ function MainComponent() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, password }),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "حدث خطأ");
-      }
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) throw error;
       setSuccess(true);
     } catch (err) {
       console.error(err);
@@ -239,7 +234,7 @@ function MainComponent() {
 
                 <button
                   type="submit"
-                  disabled={loading || !token}
+                  disabled={loading || !ready}
                   className="w-full py-4 rounded-2xl font-bold text-white text-sm bg-gradient-to-l from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 active:scale-[0.98] transition-all shadow-lg shadow-indigo-950/50 disabled:opacity-50"
                 >
                   {loading ? (

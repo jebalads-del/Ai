@@ -1,36 +1,31 @@
 import { useState, useEffect } from "react";
 
+import { supabase } from "@/utils/supabase";
+
 function MainComponent() {
-  const [status, setStatus] = useState("loading"); // loading | success | error
+  const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const token = params.get("token");
-      if (!token) {
-        setStatus("error");
-        setMessage("رابط التحقق غير صالح");
-        return;
+    let active = true;
+    const finishVerification = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (!active) return;
+      setStatus(!error && data.session ? "success" : "error");
+      if (error || !data.session) {
+        setMessage("رابط التحقق غير صالح أو منتهي الصلاحية");
       }
-      verifyEmail(token);
-    }
+    };
+    finishVerification();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!active) return;
+      if (session) setStatus("success");
+    });
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
   }, []);
-
-  const verifyEmail = async (token) => {
-    try {
-      const res = await fetch(`/api/verify-email?token=${token}`);
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "فشل التحقق");
-      }
-      setStatus("success");
-    } catch (err) {
-      console.error(err);
-      setStatus("error");
-      setMessage(err.message || "رابط التحقق غير صالح أو منتهي الصلاحية");
-    }
-  };
 
   return (
     <div

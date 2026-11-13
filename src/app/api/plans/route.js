@@ -1,56 +1,87 @@
-import sql from "@/app/api/utils/sql";
+import { createClient } from '@supabase/supabase-js';
+import { auth } from '@/auth';
+
+function publicSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  );
+}
+
+async function requireAdmin() {
+  const session = await auth();
+  if (!session?.user?.id) return { error: Response.json({ error: 'غير مصرح' }, { status: 401 }) };
+  if (session.user.role !== 'admin') return { error: Response.json({ error: 'غير مصرح' }, { status: 403 }) };
+  return session;
+}
 
 export async function GET() {
   try {
-    const plans = await sql`SELECT * FROM plans ORDER BY price ASC`;
-    return Response.json(plans);
+    const { data, error } = await publicSupabase().from('plans').select('*').order('price');
+    if (error) throw error;
+    return Response.json(data);
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('plans error:', error);
+    return Response.json({ error: 'تعذر تحميل الخطط' }, { status: 500 });
   }
 }
 
 export async function POST(request) {
+  const session = await requireAdmin();
+  if (session.error) return session.error;
+
   try {
     const { name, price, tokens_limit, description } = await request.json();
-    if (!name || price === undefined || !tokens_limit) {
-      return Response.json({ error: "بيانات ناقصة" }, { status: 400 });
+    if (!name || price === undefined || !Number.isInteger(Number(tokens_limit))) {
+      return Response.json({ error: 'بيانات الخطة غير مكتملة' }, { status: 400 });
     }
-    const result = await sql`
-      INSERT INTO plans (name, price, tokens_limit, description)
-      VALUES (${name}, ${Number(price)}, ${Number(tokens_limit)}, ${description || ""})
-      RETURNING *
-    `;
-    return Response.json(result[0]);
+    const { data, error } = await session.supabase
+      .from('plans')
+      .insert({ name, price: Number(price), tokens_limit: Number(tokens_limit), description: description || '' })
+      .select()
+      .single();
+    if (error) throw error;
+    return Response.json(data);
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('create plan error:', error);
+    return Response.json({ error: 'تعذر إنشاء الخطة' }, { status: 500 });
   }
 }
 
 export async function PUT(request) {
+  const session = await requireAdmin();
+  if (session.error) return session.error;
+
   try {
     const { id, name, price, tokens_limit, description } = await request.json();
-    if (!id) return Response.json({ error: "المعرف مطلوب" }, { status: 400 });
-    const result = await sql`
-      UPDATE plans SET
-        name = ${name},
-        price = ${Number(price)},
-        tokens_limit = ${Number(tokens_limit)},
-        description = ${description || ""}
-      WHERE id = ${id}
-      RETURNING *
-    `;
-    return Response.json(result[0]);
+    if (!id) return Response.json({ error: 'المعرف مطلوب' }, { status: 400 });
+    const { data, error } = await session.supabase
+      .from('plans')
+      .update({ name, price: Number(price), tokens_limit: Number(tokens_limit), description: description || '' })
+      .eq('id', id)
+      .select()
+      .single();
+    if (error) throw error;
+    return Response.json(data);
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('update plan error:', error);
+    return Response.json({ error: 'تعذر تحديث الخطة' }, { status: 500 });
   }
 }
 
 export async function DELETE(request) {
+  const session = await requireAdmin();
+  if (session.error) return session.error;
+
   try {
     const { id } = await request.json();
-    await sql`DELETE FROM plans WHERE id = ${id}`;
+    if (!id) return Response.json({ error: 'المعرف مطلوب' }, { status: 400 });
+    const { error } = await session.supabase.from('plans').delete().eq('id', id);
+    if (error) throw error;
     return Response.json({ ok: true });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('delete plan error:', error);
+    return Response.json({ error: 'تعذر حذف الخطة' }, { status: 500 });
   }
 }

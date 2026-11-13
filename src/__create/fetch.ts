@@ -65,10 +65,19 @@ export const fetchWithHeaders = async (
   };
 
   const isExternalFetch = !isFirstPartyURL(url) && !isSecondPartyUrl(url);
-  // we should not add headers to requests that don't go to our own server
-  // or if it's an API request
-  if (isExternalFetch || url.startsWith('/api')) {
+  if (isExternalFetch) {
     return originalFetch(input, init);
+  }
+
+  if (url.startsWith('/api')) {
+    if (isBackend()) return originalFetch(input, init);
+    const { supabase } = await import('../utils/supabase');
+    const { data } = await supabase.auth.getSession();
+    const headers = new Headers(input instanceof Request ? input.headers : init?.headers);
+    if (data.session?.access_token) {
+      headers.set('Authorization', `Bearer ${data.session.access_token}`);
+    }
+    return originalFetch(input, { ...init, headers });
   }
 
   // Normalize Request into init

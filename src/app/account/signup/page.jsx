@@ -29,13 +29,12 @@ function MainComponent() {
     setLoading(true);
     setError(null);
     try {
-      await signUpWithCredentials({
-        email,
-        password,
-        name,
-        callbackUrl: "/account/verify-email-sent",
-        redirect: true,
-      });
+      const { session } = await signUpWithCredentials({ email, password, name });
+      window.location.assign(
+        session
+          ? "/dashboard"
+          : `/account/verify-email-sent?email=${encodeURIComponent(email)}`
+      );
     } catch (err) {
       setError("حدث خطأ أثناء إنشاء الحساب. قد يكون البريد مستخدماً بالفعل.");
       setLoading(false);

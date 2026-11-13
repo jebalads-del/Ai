@@ -1,16 +1,8 @@
-import { useCallback } from 'react';
-import { signIn, signOut } from "@auth/create/react";
+import { supabase } from './supabase';
 
-function isDevIframe() {
-  try {
-    return typeof window !== 'undefined' && window.self !== window.top;
-  } catch { return true; }
-}
-
-function devSocialShim(provider, callbackUrl) {
-  const params = new URLSearchParams({ provider });
-  if (callbackUrl) params.set('callbackUrl', callbackUrl);
-  window.location.href = '/__create/social-dev-shim?' + params;
+function getRedirectUrl(callbackUrl) {
+  const target = new URL(callbackUrl || '/', window.location.origin);
+  return target.origin === window.location.origin ? target.toString() : window.location.origin;
 }
 
 function useAuth() {
@@ -18,50 +10,48 @@ function useAuth() {
     ? new URLSearchParams(window.location.search).get('callbackUrl')
     : null;
 
-  const signInWithCredentials = useCallback((options) => {
-    return signIn("credentials-signin", {
-      ...options,
-      callbackUrl: callbackUrl ?? options.callbackUrl
-    });
-  }, [callbackUrl])
+  const signInWithCredentials = async ({ email, password, callbackUrl: target }) => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    if (target || callbackUrl) window.location.assign(getRedirectUrl(callbackUrl ?? target));
+  };
 
-  const signUpWithCredentials = useCallback((options) => {
-    return signIn("credentials-signup", {
-      ...options,
-      callbackUrl: callbackUrl ?? options.callbackUrl
+  const signUpWithCredentials = async ({ email, password, name, callbackUrl: target }) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { name },
+        emailRedirectTo: getRedirectUrl(target || '/account/verify-email'),
+      },
     });
-  }, [callbackUrl])
+    if (error) throw error;
+    return data;
+  };
 
-  const signInWithGoogle = useCallback((options) => {
-    const cb = callbackUrl ?? options?.callbackUrl;
-    if (isDevIframe()) return devSocialShim("google", cb);
-    return signIn("google", { ...options, callbackUrl: cb });
-  }, [callbackUrl]);
-  const signInWithFacebook = useCallback((options) => {
-    const cb = options?.callbackUrl;
-    if (isDevIframe()) return devSocialShim("facebook", cb);
-    return signIn("facebook", options);
-  }, []);
-  const signInWithTwitter = useCallback((options) => {
-    const cb = options?.callbackUrl;
-    if (isDevIframe()) return devSocialShim("twitter", cb);
-    return signIn("twitter", options);
-  }, []);
-  const signInWithApple = useCallback((options) => {
-    const cb = callbackUrl ?? options?.callbackUrl;
-    if (isDevIframe()) return devSocialShim("apple", cb);
-    return signIn("apple", { ...options, callbackUrl: cb });
-  }, [callbackUrl]);
+  const signInWithOAuth = async (provider, options = {}) => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: { redirectTo: getRedirectUrl(callbackUrl ?? options.callbackUrl) },
+    });
+    if (error) throw error;
+  };
+
+  const signOut = async ({ callbackUrl: target = '/' } = {}) => {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+    window.location.assign(getRedirectUrl(target));
+  };
 
   return {
     signInWithCredentials,
     signUpWithCredentials,
-    signInWithGoogle,
-    signInWithFacebook,
-    signInWithTwitter,
-    signInWithApple,
+    signInWithGoogle: (options) => signInWithOAuth('google', options),
+    signInWithFacebook: (options) => signInWithOAuth('facebook', options),
+    signInWithTwitter: (options) => signInWithOAuth('x', options),
+    signInWithApple: (options) => signInWithOAuth('apple', options),
     signOut,
-  }
+  };
 }
 
 export default useAuth;

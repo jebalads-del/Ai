@@ -1,35 +1,49 @@
-import * as React from 'react';
-import { useSession } from "@auth/create/react";
+import { useCallback, useEffect, useState } from 'react';
+import { supabase } from './supabase';
 
+function mapUser(user) {
+  if (!user) return null;
+  return {
+    id: user.id,
+    email: user.email,
+    name: user.user_metadata?.name || user.user_metadata?.full_name || null,
+    image: user.user_metadata?.avatar_url || null,
+    role: user.app_metadata?.role || 'user',
+  };
+}
 
 const useUser = () => {
-  const { data: session, status } = useSession();
-  const id = session?.user?.id
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const [user, setUser] = React.useState(session?.user ?? null);
+  const refetch = useCallback(async () => {
+    const { data, error } = await supabase.auth.getUser();
+    setUser(error ? null : mapUser(data.user));
+    setLoading(false);
+  }, []);
 
-  const fetchUser = React.useCallback(async (session) => {
-  return session?.user;
-}, [])
+  useEffect(() => {
+    let active = true;
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!active) return;
+      setUser(mapUser(session?.user));
+      setLoading(false);
+    });
 
-  const refetchUser = React.useCallback(() => {
-    if(process.env.NEXT_PUBLIC_CREATE_ENV === "PRODUCTION") {
-      if (id) {
-        fetchUser(session).then(setUser);
-      } else {
-        setUser(null);
-      }
-    }
-  }, [fetchUser, id])
+    supabase.auth.getSession().then(({ data, error }) => {
+      if (!active) return;
+      setUser(error ? null : mapUser(data.session?.user));
+      setLoading(false);
+    });
 
-  React.useEffect(refetchUser, [refetchUser]);
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
-  if (process.env.NEXT_PUBLIC_CREATE_ENV !== "PRODUCTION") {
-    return { user, data: session?.user || null, loading: status === 'loading', refetch: refetchUser };
-  }
-  return { user, data: user, loading: status === 'loading' || (status === 'authenticated' && !user), refetch: refetchUser };
+  return { user, data: user, loading, refetch };
 };
 
-export { useUser }
-
+export { useUser };
 export default useUser;

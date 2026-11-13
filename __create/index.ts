@@ -11,7 +11,9 @@ import { cors } from 'hono/cors';
 import { proxy } from 'hono/proxy';
 import { bodyLimit } from 'hono/body-limit';
 import { requestId } from 'hono/request-id';
-import { createHonoServer } from 'react-router-hono-server/node';
+import { createRequestHandler } from 'react-router';
+// @ts-expect-error - virtual React Router build module
+import * as build from 'virtual:react-router/server-build';
 import { serializeError } from 'serialize-error';
 import ws from 'ws';
 import NeonAdapter from './adapter';
@@ -89,6 +91,7 @@ if (process.env.AUTH_SECRET) {
     '*',
     initAuthConfig((c) => ({
       secret: c.env.AUTH_SECRET,
+      basePath: '/api/auth',
       pages: {
         signIn: '/account/signin',
         signOut: '/account/logout',
@@ -293,7 +296,10 @@ app.use('/api/auth/*', async (c, next) => {
 });
 app.route(API_BASENAME, api);
 
-export default await createHonoServer({
-  app,
-  defaultLogger: false,
-});
+const requestHandler = createRequestHandler(
+  build,
+  import.meta.env.DEV ? 'development' : 'production'
+);
+app.all('*', (c) => requestHandler(c.req.raw));
+
+export default import.meta.env.DEV ? app : app.fetch;

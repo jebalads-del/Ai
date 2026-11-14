@@ -10,6 +10,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
       "@auth/create/react": path.resolve(__dirname, "./src/__create/@auth/create/react.js"),
       "./router-shim": path.resolve(__dirname, "./src/__create/router-shim.js"),
+      "virtual:load-fonts.jsx": path.resolve(__dirname, "./src/__create/load-fonts.js"),
     },
   },
 });

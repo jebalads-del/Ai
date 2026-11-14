@@ -20,6 +20,8 @@ function MainComponent() {
           CredentialsSignin: "البريد الإلكتروني أو كلمة المرور غير صحيحة",
           OAuthSignin: "فشل الدخول عبر جوجل، حاول مرة أخرى",
           OAuthCallback: "فشل الدخول عبر جوجل، حاول مرة أخرى",
+          unsupported_provider: "تسجيل الدخول عبر Google غير مفعّل في إعدادات Supabase لهذا المشروع.",
+          redirect_to_not_allowed: "رابط العودة غير مسموح به في إعدادات Supabase.",
           OAuthCreateAccount: "لا يمكن إنشاء حساب بهذه الطريقة",
           EmailCreateAccount: "هذا البريد مستخدم بالفعل",
           Callback: "حدث خطأ أثناء تسجيل الدخول",
@@ -37,7 +39,9 @@ function MainComponent() {
       await signInWithGoogle({ callbackUrl: "/dashboard" });
     } catch (err) {
       console.error("Google sign-in error:", err);
-      setError("تعذر بدء الدخول عبر Google. تحقق من إعدادات Google في Supabase.");
+      setError(err?.code === "unsupported_provider"
+        ? "تسجيل الدخول عبر Google غير مفعّل في إعدادات Supabase لهذا المشروع."
+        : "تعذر بدء الدخول عبر Google. تحقق من إعدادات Google وروابط العودة في Supabase.");
     }
   };
 

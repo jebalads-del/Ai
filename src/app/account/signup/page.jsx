@@ -17,7 +17,9 @@ function MainComponent() {
       await signInWithGoogle({ callbackUrl: "/dashboard" });
     } catch (err) {
       console.error("Google sign-up error:", err);
-      setError("تعذر بدء التسجيل عبر Google. تحقق من إعدادات Google في Supabase.");
+      setError(err?.code === "unsupported_provider"
+        ? "تسجيل الدخول عبر Google غير مفعّل في إعدادات Supabase لهذا المشروع."
+        : "تعذر بدء التسجيل عبر Google. تحقق من إعدادات Google وروابط العودة في Supabase.");
     }
   };
 
@@ -46,7 +48,12 @@ function MainComponent() {
           : `/account/verify-email-sent?email=${encodeURIComponent(email)}`
       );
     } catch (err) {
-      setError("حدث خطأ أثناء إنشاء الحساب. قد يكون البريد مستخدماً بالفعل.");
+      console.error("Sign-up error:", err);
+      setError(err?.code === "redirect_to_not_allowed"
+        ? "رابط تأكيد البريد غير مسموح به في إعدادات Supabase."
+        : err?.code === "email_exists"
+          ? "هذا البريد الإلكتروني مسجل مسبقاً."
+          : "تعذر إنشاء الحساب. تحقق من إعدادات البريد وروابط العودة في Supabase.");
       setLoading(false);
     }
   };

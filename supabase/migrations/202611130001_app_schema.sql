@@ -35,7 +35,7 @@ begin
     new.id,
     new.email,
     new.email_confirmed_at,
-    coalesce(new.app_metadata ->> 'provider', 'email'),
+    coalesce(new.raw_app_meta_data ->> 'provider', 'email'),
     coalesce(new.raw_user_meta_data ->> 'name', new.raw_user_meta_data ->> 'full_name'),
     new.raw_user_meta_data ->> 'avatar_url'
   )
@@ -57,7 +57,7 @@ for each row execute function public.handle_new_auth_user();
 
 drop trigger if exists on_auth_user_updated on auth.users;
 create trigger on_auth_user_updated
-after update of email, email_confirmed_at, raw_user_meta_data, app_metadata on auth.users
+after update of email, email_confirmed_at, raw_user_meta_data, raw_app_meta_data on auth.users
 for each row execute function public.handle_new_auth_user();
 
 insert into public.profiles (id, email, email_verified_at, provider, full_name, avatar_url)
@@ -65,7 +65,7 @@ select
   id,
   email,
   email_confirmed_at,
-  coalesce(app_metadata ->> 'provider', 'email'),
+  coalesce(raw_app_meta_data ->> 'provider', 'email'),
   coalesce(raw_user_meta_data ->> 'name', raw_user_meta_data ->> 'full_name'),
   raw_user_meta_data ->> 'avatar_url'
 from auth.users

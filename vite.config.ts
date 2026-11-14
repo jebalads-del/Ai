@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "@auth/create/react": path.resolve(__dirname, "./src/__create/@auth/create/react.js"),
       "./router-shim": path.resolve(__dirname, "./src/__create/router-shim.js"),
     },
   },

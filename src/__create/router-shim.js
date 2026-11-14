@@ -1,3 +1,3 @@
-export function UNSAFE_withComponentProps() {
-  return (Component) => Component;
+export function UNSAFE_withComponentProps(Component) {
+  return Component;
 }

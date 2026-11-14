@@ -51,7 +51,7 @@ function MainComponent() {
       console.error("Sign-up error:", err);
       setError(err?.code === "redirect_to_not_allowed"
         ? "رابط تأكيد البريد غير مسموح به في إعدادات Supabase."
-        : err?.code === "email_exists"
+        : ["email_exists", "user_already_exists"].includes(err?.code)
           ? "هذا البريد الإلكتروني مسجل مسبقاً."
           : "تعذر إنشاء الحساب. تحقق من إعدادات البريد وروابط العودة في Supabase.");
       setLoading(false);

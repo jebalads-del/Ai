@@ -1,5 +1,7 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 import nodeConsole from 'node:console';
+import fs from 'node:fs';
+import path from 'node:path';
 import { skipCSRFCheck } from '@auth/core';
 import type { Adapter, AdapterSession, AdapterUser, VerificationToken } from '@auth/core/adapters';
 import Credentials from '@auth/core/providers/credentials';
@@ -17,6 +19,14 @@ import postgres from 'postgres';
 import { getHTMLForErrorPage } from './get-html-for-error-page';
 import { isAuthAction } from './is-auth-action';
 import { API_BASENAME, api } from './route-builder';
+
+// تأكد من وجود مجلد الـ api لمنع خطأ ENOENT أثناء فحص المسارات
+try {
+  const apiDirpath = path.join(process.cwd(), 'src/app/api');
+  if (!fs.existsSync(apiDirpath)) {
+    fs.mkdirSync(apiDirpath, { recursive: true });
+  }
+} catch {}
 
 const als = new AsyncLocalStorage<{ requestId: string }>();
 

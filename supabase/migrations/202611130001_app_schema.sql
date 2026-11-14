@@ -174,3 +174,178 @@ for select to authenticated using (setting_key = 'payment_methods' or public.is_
 drop policy if exists settings_admin_write on public.admin_settings;
 create policy settings_admin_write on public.admin_settings
 for all to authenticated using (public.is_admin()) with check (public.is_admin());
+
+create or replace function public.admin_set_app_subscription(target_user_id uuid, target_plan_id bigint)
+returns void
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+begin
+  if not public.is_admin() then
+    raise exception 'not authorized' using errcode = '42501';
+  end if;
+  if not exists (select 1 from public.profiles where id = target_user_id) then
+    raise exception 'user not found' using errcode = 'P0002';
+  end if;
+  if not exists (select 1 from public.plans where id = target_plan_id) then
+    raise exception 'plan not found' using errcode = 'P0002';
+  end if;
+
+  delete from public.subscriptions where user_id = target_user_id;
+  insert into public.subscriptions (user_id, plan_id, status)
+  values (target_user_id, target_plan_id, 'active');
+end;
+$$;
+
+create or replace function public.admin_remove_app_subscription(target_user_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+begin
+  if not public.is_admin() then
+    raise exception 'not authorized' using errcode = '42501';
+  end if;
+  delete from public.subscriptions where user_id = target_user_id;
+end;
+$$;
+
+create or replace function public.admin_delete_app_user(target_user_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+begin
+  if not public.is_admin() then
+    raise exception 'not authorized' using errcode = '42501';
+  end if;
+  delete from auth.users where id = target_user_id;
+end;
+$$;
+
+create or replace function public.admin_verify_app_user(target_user_id uuid)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+declare
+  updated_user auth.users%rowtype;
+begin
+  if not public.is_admin() then
+    raise exception 'not authorized' using errcode = '42501';
+  end if;
+
+  update auth.users
+  set email_confirmed_at = coalesce(email_confirmed_at, now()), updated_at = now()
+  where id = target_user_id
+  returning * into updated_user;
+
+  if not found then
+    return null;
+  end if;
+
+  return jsonb_build_object(
+    'id', updated_user.id,
+    'email', updated_user.email,
+    'email_verified', updated_user.email_confirmed_at
+  );
+end;
+$$;
+
+create or replace function public.admin_list_app_users(
+  search_query text default null,
+  page_number integer default 1,
+  page_size integer default 20
+)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+declare
+  safe_page integer := greatest(coalesce(page_number, 1), 1);
+  safe_page_size integer := least(greatest(coalesce(page_size, 20), 1), 100);
+  matched_total bigint;
+  result jsonb;
+begin
+  if not public.is_admin() then
+    raise exception 'not authorized' using errcode = '42501';
+  end if;
+
+  select count(*) into matched_total
+  from public.profiles p
+  where search_query is null
+    or p.email ilike '%' || search_query || '%'
+    or p.full_name ilike '%' || search_query || '%';
+
+  select jsonb_build_object(
+    'users', coalesce((
+      select jsonb_agg(jsonb_build_object(
+        'id', page_users.id,
+        'name', page_users.full_name,
+        'email', page_users.email,
+        'email_verified', page_users.email_verified_at,
+        'image', page_users.avatar_url,
+        'provider', page_users.provider,
+        'subscription_status', subscription.status,
+        'plan_name', subscription.plan_name,
+        'plan_price', subscription.plan_price,
+        'usage_count', usage.usage_count,
+        'last_active', usage.last_active
+      ) order by page_users.created_at desc)
+      from (
+        select p.* from public.profiles p
+        where search_query is null
+          or p.email ilike '%' || search_query || '%'
+          or p.full_name ilike '%' || search_query || '%'
+        order by p.created_at desc
+        limit safe_page_size offset (safe_page - 1) * safe_page_size
+      ) page_users
+      left join lateral (
+        select s.status, plans.name as plan_name, plans.price as plan_price
+        from public.subscriptions s
+        join public.plans on plans.id = s.plan_id
+        where s.user_id = page_users.id
+        order by s.created_at desc
+        limit 1
+      ) subscription on true
+      left join lateral (
+        select count(*) as usage_count, max(logs.created_at) as last_active
+        from public.usage_logs logs
+        where logs.user_id = page_users.id
+      ) usage on true
+    ), '[]'::jsonb),
+    'total', matched_total,
+    'verified', (select count(*) from public.profiles where email_verified_at is not null),
+    'totalRevenue', (
+      select coalesce(sum(plans.price), 0)
+      from public.subscriptions s
+      join public.plans on plans.id = s.plan_id
+      where s.status = 'active'
+    ),
+    'todayUsage', (
+      select count(*) from public.usage_logs
+      where created_at >= date_trunc('day', now())
+    ),
+    'page', safe_page,
+    'pages', greatest(1, ceil(matched_total::numeric / safe_page_size))
+  ) into result;
+
+  return result;
+end;
+$$;
+
+revoke all on function public.admin_list_app_users(text, integer, integer) from public, anon;
+grant execute on function public.admin_list_app_users(text, integer, integer) to authenticated;
+revoke all on function public.admin_set_app_subscription(uuid, bigint) from public, anon;
+revoke all on function public.admin_remove_app_subscription(uuid) from public, anon;
+revoke all on function public.admin_delete_app_user(uuid) from public, anon;
+revoke all on function public.admin_verify_app_user(uuid) from public, anon;
+grant execute on function public.admin_set_app_subscription(uuid, bigint) to authenticated;
+grant execute on function public.admin_remove_app_subscription(uuid) to authenticated;
+grant execute on function public.admin_delete_app_user(uuid) to authenticated;
+grant execute on function public.admin_verify_app_user(uuid) to authenticated;

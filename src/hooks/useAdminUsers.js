@@ -43,11 +43,13 @@ export function useAdminUsers() {
       return;
     setDeletingId(userId);
     try {
-      await fetch("/api/admin/users", {
+      const res = await fetch("/api/admin/users", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId }),
       });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "فشل الحذف");
       setUsers((p) => p.filter((u) => u.id !== userId));
       showToast("تم الحذف ✓");
     } catch {

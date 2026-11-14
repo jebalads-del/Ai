@@ -11,6 +11,16 @@ function MainComponent() {
 
   const { signUpWithCredentials, signInWithGoogle } = useAuth();
 
+  const onGoogleSignUp = async () => {
+    setError(null);
+    try {
+      await signInWithGoogle({ callbackUrl: "/dashboard" });
+    } catch (err) {
+      console.error("Google sign-up error:", err);
+      setError("تعذر بدء التسجيل عبر Google. تحقق من إعدادات Google في Supabase.");
+    }
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password || !name) {
@@ -107,9 +117,7 @@ function MainComponent() {
 
           <button
             type="button"
-            onClick={() =>
-              signInWithGoogle({ callbackUrl: "/dashboard", redirect: true })
-            }
+            onClick={onGoogleSignUp}
             className="w-full flex items-center justify-center gap-3 border border-white/10 py-3.5 rounded-2xl hover:bg-white/5 transition-all font-medium text-sm text-slate-200 mb-6 shadow-sm"
           >
             <svg width="18" height="18" viewBox="0 0 18 18">

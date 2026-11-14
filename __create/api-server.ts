@@ -1,5 +1,4 @@
 import { Hono } from 'hono';
-import { bodyLimit } from 'hono/body-limit';
 import { contextStorage } from 'hono/context-storage';
 import { requestId } from 'hono/request-id';
 import { API_BASENAME, api } from './route-builder';
@@ -14,15 +13,24 @@ app.onError((error, c) => {
   return c.json({ error: 'حدث خطأ في الخادم' }, 500);
 });
 
-for (const method of ['post', 'put', 'patch'] as const) {
-  app[method](
-    '*',
-    bodyLimit({
-      maxSize: 4.5 * 1024 * 1024,
-      onError: (c) => c.json({ error: 'حجم الطلب كبير جدًا' }, 413),
-    })
-  );
-}
+app.use('*', async (c, next) => {
+  if (!['POST', 'PUT', 'PATCH'].includes(c.req.method) || !c.req.raw.body) {
+    return next();
+  }
+
+  const reader = c.req.raw.clone().body!.getReader();
+  let size = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    size += value.byteLength;
+    if (size > 4.5 * 1024 * 1024) {
+      await reader.cancel();
+      return c.json({ error: 'حجم الطلب كبير جدًا' }, 413);
+    }
+  }
+  return next();
+});
 
 app.route(API_BASENAME, api);
 
